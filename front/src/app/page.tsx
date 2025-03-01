@@ -1,19 +1,24 @@
 "use client";
 
-import { CiSearch } from "react-icons/ci";
+import { CiInstagram, CiSearch } from "react-icons/ci";
 import { IoIosNotificationsOutline, IoIosMenu } from "react-icons/io";
 import { MutableRefObject, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import {
   Box,
-  Card,
   Flex,
   Image,
+  Separator,
   SimpleGrid,
   Spacer,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { FaApple, FaFacebook, FaYoutube } from "react-icons/fa";
+import { RxGithubLogo } from "react-icons/rx";
+import { IoLogoGooglePlaystore } from "react-icons/io5";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const dataList = [
   {
@@ -53,6 +58,20 @@ const dataList = [
     content: "React Developer with experience in web application development.",
   },
 ];
+
+const options = [
+  "강남역",
+  "선릉역",
+  "삼성역",
+  "성수역",
+  "잠실역",
+  "논현역",
+  "선정릉역",
+  "공덕역",
+  "홍대입구역",
+  "판교역",
+];
+const defaultOption = options[0];
 
 export default function Home() {
   // horizontal scrollbar
@@ -204,8 +223,18 @@ export default function Home() {
     <>
       <Box>
         {/* 상단 탭바 */}
-        <Flex backgroundColor={"red"} height={59} padding="5px">
-          <Image height="100%" src="/developer_logo_horizon.png" />
+        <Flex
+          backgroundColor={"green"}
+          height={59}
+          alignItems="center"
+          width="100%"
+          pl="20px"
+          pr="20px"
+          position="fixed"
+          top={0}
+          zIndex={1024}
+        >
+          <Image height="35px" src="/developer_logo_horizon.png" />
           <Spacer />
           <Flex alignItems="center" gap={1}>
             <CiSearch size={30} className="hover:bg-stone-50/50 rounded-full" />
@@ -222,14 +251,16 @@ export default function Home() {
       </Box>
 
       {/* 합격 가능성이 높은 포지션 */}
-      {renderPosition({
-        ref: scrollRefPos,
-        events: scrollResPosEvents,
-        title: "합격 가능성이 높은 포지션",
-      })}
+      <Box mt="59px" ml="20px" mr="20px">
+        {renderPosition({
+          ref: scrollRefPos,
+          events: scrollResPosEvents,
+          title: "합격 가능성이 높은 포지션",
+        })}
+      </Box>
 
       {/* 지금 주목할 소식 */}
-      <Flex direction="column" mt={50}>
+      <Flex direction="column" mt={50} ml="20px" mr="20px">
         <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
           지금 주목할 소식
         </Text>
@@ -270,9 +301,7 @@ export default function Home() {
               );
             })}
         </Stack>
-
         <Box mt={50} />
-
         {/* 테마로 살펴보는 회사/포지션 */}
         <Flex direction="column">
           <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
@@ -325,7 +354,6 @@ export default function Home() {
               })}
           </Stack>
         </Flex>
-
         <Box mt={50} />
         {/* 최근 본 포지션 */}
         {renderPosition({
@@ -334,11 +362,20 @@ export default function Home() {
           title: "최근 본 포지션",
         })}
         <Box mt={50} />
-
         <Flex direction="column">
-          <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
-            출퇴근 걱정없는 역세권 포지션
-          </Text>
+          <Flex>
+            <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
+              출퇴근 걱정없는 역세권 포지션
+            </Text>
+            <Box w="145px" ml={4}>
+              <Dropdown
+                options={options}
+                value={defaultOption}
+                placeholder="Select an option"
+              />
+            </Box>
+          </Flex>
+
           <Stack
             direction="row"
             gap={4}
@@ -350,7 +387,6 @@ export default function Home() {
             {renderStationPosition({ stationList: dataList })}
           </Stack>
         </Flex>
-
         <Box mt={50} />
         {/* 적극 채용 중 포지션 어때요? */}
         {renderPosition({
@@ -359,7 +395,95 @@ export default function Home() {
           title: "적극 채용 중 포지션 어때요?",
         })}
 
-        <Box mt={500} />
+        <Box mt={450} />
+
+        {/* 푸터 영역 */}
+        <Box
+          bg="white"
+          h={300}
+          bottom={0}
+          left={0}
+          right={0}
+          position="absolute"
+        >
+          <Separator />
+          <Flex alignItems="center" p="30px">
+            <Image src="/developer_logo_horizon.png" w="150px" />
+            <Spacer />
+            <Flex gap={5} pr="30px">
+              <Text fontSize={16} fontWeight="bold">
+                기업소개
+              </Text>
+              <Text fontSize={16} fontWeight="bold">
+                광고문의
+              </Text>
+              <Text fontSize={16} fontWeight="bold">
+                고객센터
+              </Text>
+              <Text fontSize={16} fontWeight="bold">
+                이용약관
+              </Text>
+              <Text fontSize={16} fontWeight="bold">
+                블로그
+              </Text>
+              <Text fontSize={16} fontWeight="bold">
+                개인정보 처리방침
+              </Text>
+            </Flex>
+          </Flex>
+
+          <Stack direction="column" mt="0px" pl="30px" pr="30px">
+            <Text fontSize={14} color="grey">
+              (주)디벨로퍼랩 | 대표이사 디벨로퍼
+            </Text>
+            <Text fontSize={14} color="grey">
+              서울특별시 마포구 아현동 | 전화번호: 010-6464-2211
+            </Text>
+            <Text fontSize={14} color="grey">
+              사업자등록번호: 111-11-11111 | 통신판매번호: 1111-서울-1111 |
+              유료직업소개사업등록번호: (국내) 제1111-111111-11-1-11111호
+            </Text>
+
+            <Flex gap={4}>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                채용서비스 문의
+              </Text>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                디벨로퍼스페이스 문의
+              </Text>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                디벨로퍼긱스 문의
+              </Text>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                프리온보딩 문의
+              </Text>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                취업지원시스템 문의
+              </Text>
+              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
+                IR 문의
+              </Text>
+            </Flex>
+          </Stack>
+
+          <Separator mt="20px" />
+
+          <Flex pl="30px" pt="20px" alignItems="center">
+            <Text fontSize={14} fontWeight="bold" color="grey">
+              © 2025 Developer Lab, Inc.
+            </Text>
+            <Spacer />
+
+            <Flex gap="10px" pr="30px">
+              <CiInstagram size="22px" />
+              <FaFacebook size="22px" />
+              <RxGithubLogo size="22px" />
+              <FaYoutube size="22px" />
+              <FaApple size="22px" />
+              <IoLogoGooglePlaystore size="22px" />
+            </Flex>
+          </Flex>
+        </Box>
       </Flex>
     </>
   );
