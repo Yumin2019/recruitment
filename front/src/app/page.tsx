@@ -6,6 +6,8 @@ import { MutableRefObject, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import {
   Box,
+  Button,
+  Center,
   Flex,
   Image,
   Separator,
@@ -19,6 +21,7 @@ import { RxGithubLogo } from "react-icons/rx";
 import { IoLogoGooglePlaystore } from "react-icons/io5";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { RiMenu2Line } from "react-icons/ri";
 
 const dataList = [
   {
@@ -117,6 +120,7 @@ export default function Home() {
     applyRubberBandEffect: true,
   });
 
+  // 공고 포지션 렌더링에 사용되는 함수(스크롤 처리)
   const renderPosition = ({
     ref,
     events,
@@ -153,6 +157,9 @@ export default function Home() {
                   </Text>
                   <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
                     데브컴퍼니
+                  </Text>
+                  <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+                    경력 2년 이상
                   </Text>
                 </Stack>
               );
@@ -221,37 +228,133 @@ export default function Home() {
 
   return (
     <>
-      <Box>
-        {/* 상단 탭바 */}
-        <Flex
-          backgroundColor={"green"}
-          height={59}
-          alignItems="center"
-          width="100%"
-          pl="20px"
-          pr="20px"
-          position="fixed"
-          top={0}
-          zIndex={1024}
-        >
-          <Image height="35px" src="/developer_logo_horizon.png" />
-          <Spacer />
-          <Flex alignItems="center" gap={1}>
-            <CiSearch size={30} className="hover:bg-stone-50/50 rounded-full" />
-            <IoIosNotificationsOutline
-              size={30}
-              className="hover:bg-stone-50/50 rounded-full"
-            />
-            <IoIosMenu
-              size={30}
-              className="hover:bg-stone-50/50 rounded-full"
-            />
+      {/* 상단 탭바 */}
+      <Flex
+        backgroundColor="white"
+        height={59}
+        alignItems="center"
+        width="100%"
+        pl="20px"
+        pr="20px"
+        position="fixed"
+        top={0}
+        zIndex={1024}
+        borderBottom="1px solid rgba(128,128,128,0.2)"
+      >
+        <Image height="35px" src="/developer_logo_horizon.png" />
+        <Flex gap={8} alignItems="center">
+          <Flex ml={8} alignItems="center" className="hover:text-purple-400">
+            <RiMenu2Line size={20} />
+            <Text fontSize={14}>채용</Text>
           </Flex>
+
+          <Text className="hover:text-purple-400" fontSize={14}>
+            커리어
+          </Text>
+
+          <Text className="hover:text-purple-400" fontSize={14}>
+            소셜
+          </Text>
+
+          <Text className="hover:text-purple-400" fontSize={14}>
+            이력서
+          </Text>
+
+          <Text className="hover:text-purple-400" fontSize={14}>
+            프리랜서
+          </Text>
+
+          <Text className="hover:text-purple-400" fontSize={14}>
+            더보기
+          </Text>
         </Flex>
-      </Box>
+        <Spacer />
+        <Flex alignItems="center" gap={1}>
+          <CiSearch size={30} className="hover:text-purple-400" />
+          <IoIosNotificationsOutline
+            size={30}
+            className="hover:text-purple-400"
+          />
+          <IoIosMenu size={30} className="hover:text-purple-400" />
+        </Flex>
+      </Flex>
+
+      <Box mt="59px" />
+
+      <Flex gap={12} mb={8} mt={20} justify="center">
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100px"
+          height="100px"
+          padding={2}
+          className="hover:rounded-[15px] hover:bg-gray-100"
+        >
+          <Image src="/post.png" w="60px" />
+          <Text fontSize={14} color="grey">
+            채용공고
+          </Text>
+        </Stack>
+
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100px"
+          height="100px"
+          padding={2}
+          className="hover:rounded-[15px] hover:bg-gray-100"
+        >
+          <Image src="/document.png" w="60px" />
+          <Text fontSize={14} color="grey">
+            이력서 관리
+          </Text>
+        </Stack>
+
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100px"
+          height="100px"
+          padding={2}
+          className="hover:rounded-[15px] hover:bg-gray-100"
+        >
+          <Image src="/bookmark.png" w="60px" />
+          <Text fontSize={14} color="grey">
+            북마크
+          </Text>
+        </Stack>
+
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100px"
+          height="100px"
+          padding={2}
+          className="hover:rounded-[15px] hover:bg-gray-100"
+        >
+          <Image src="/career-path.png" w="60px" />
+          <Text fontSize={14} color="grey">
+            지원 현황
+          </Text>
+        </Stack>
+
+        <Stack
+          direction="column"
+          alignItems="center"
+          width="100px"
+          height="100px"
+          padding={2}
+          className="hover:rounded-[15px] hover:bg-gray-100"
+        >
+          <Image src="/growth.png" w="60px" />
+          <Text fontSize={14} color="grey">
+            직군별 연봉
+          </Text>
+        </Stack>
+      </Flex>
 
       {/* 합격 가능성이 높은 포지션 */}
-      <Box mt="59px" ml="20px" mr="20px">
+      <Box ml="20px" mr="20px">
         {renderPosition({
           ref: scrollRefPos,
           events: scrollResPosEvents,
