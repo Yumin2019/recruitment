@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { CiSearch } from "react-icons/ci";
 import { IoIosNotificationsOutline, IoIosMenu } from "react-icons/io";
 import { MutableRefObject, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
+import { Box, Card, Flex, Image, Spacer, Stack, Text } from "@chakra-ui/react";
 
 const dataList = [
   {
@@ -38,63 +38,120 @@ const dataList = [
 
 export default function Home() {
   // horizontal scrollbar
-  const ref = useRef<HTMLDivElement>(
+  const scrollRefPos = useRef<HTMLDivElement>(
     undefined
   ) as React.MutableRefObject<HTMLInputElement>;
-  const { events } = useDraggable(ref, {
+  const { events: scrollResPosEvents } = useDraggable(scrollRefPos, {
+    applyRubberBandEffect: true,
+  });
+
+  const scrollRefNews = useRef<HTMLDivElement>(
+    undefined
+  ) as React.MutableRefObject<HTMLInputElement>;
+  const { events: scrollResNewsEvents } = useDraggable(scrollRefNews, {
     applyRubberBandEffect: true,
   });
 
   return (
-    <div>
-      {/* 상단 탭바 */}
-      <div className="flex bg-amber-600 absolute top-0 left-0 right-0 h-[56px] items-center p-[5px]">
-        <img src="/developer_logo_horizon.png" className="h-full" />
-        <div className="flex-1" />
-        <div className="flex" style={{ fontSize: 32, gap: 5 }}>
-          <CiSearch className="hover:bg-stone-50/50 rounded-full" />
-          <IoIosNotificationsOutline className="hover:bg-stone-50/50 rounded-full" />
-          <IoIosMenu className="hover:bg-stone-50/50 rounded-full" />
-        </div>
-      </div>
+    <>
+      <Box>
+        {/* 상단 탭바 */}
+        <Flex backgroundColor={"red"} height={59} padding="5px">
+          <Image height="100%" src="/developer_logo_horizon.png" />
+          <Spacer />
+          <Flex alignItems="center" gap={1}>
+            <CiSearch size={30} className="hover:bg-stone-50/50 rounded-full" />
+            <IoIosNotificationsOutline
+              size={30}
+              className="hover:bg-stone-50/50 rounded-full"
+            />
+            <IoIosMenu
+              size={30}
+              className="hover:bg-stone-50/50 rounded-full"
+            />
+          </Flex>
+        </Flex>
+      </Box>
 
-      <div className="mt-[56px]" />
-
-      {/* 공고 이미지 가로 리스트 */}
-      <div className="flex-col">
-        <p className="text-sms text-xl font-medium text-black mb-[5px]">
+      {/* 합격 가능성이 높은 포지션 */}
+      <Flex direction="column">
+        <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
           합격 가능성이 높은 포지션
-        </p>
-        <div
-          className="flex max-w space-x-3 overflow-x-scroll scrollbar-hide p-5 bg-amber-400"
-          {...events}
-          ref={ref}
+        </Text>
+        <Stack
+          direction="row"
+          gap={4}
+          padding={1}
+          className="space-x-3 overflow-x-scroll scrollbar-hide p-5 bg-amber-400"
+          {...scrollResPosEvents}
+          ref={scrollRefPos}
         >
           {dataList &&
             dataList.map((v, index) => {
               return (
-                // CSS는 정말 지랄 맞네... ;;
-                <img
-                  src={
-                    // v.image
-                    "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
-                  }
-                  className="h-[150px]  hover:scale-101 ease-in-out duration-300 rounded-md border-1 border-black/30"
-                />
-                // <div className="bg-amber-800">
+                <Stack direction="column" key={index}>
+                  <img
+                    style={{ borderRadius: "20px" }}
+                    width={250}
+                    height={170}
+                    src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
+                  />
 
-                //   ㄹㅇㄹㅁㅇㄴ
-                // </div>
-                // <div className="flex-col cursor-pointer" key={index}>
-
-                //   // Developer
-                //
+                  <Text fontSize={14} fontWeight="bold">
+                    안드로이드 개발자 채용
+                  </Text>
+                  <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+                    데브컴퍼니
+                  </Text>
+                </Stack>
               );
             })}
-        </div>
-      </div>
+        </Stack>
+      </Flex>
 
-      {/* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start"></main>
+      {/* 지금 주목할 소식 */}
+      <Flex direction="column" mt={50}>
+        <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
+          지금 주목할 소식
+        </Text>
+        <Stack
+          direction="row"
+          gap={4}
+          padding={1}
+          className="space-x-3 overflow-x-scroll scrollbar-hide p-5 bg-amber-400"
+          {...scrollResNewsEvents}
+          ref={scrollRefNews}
+        >
+          {dataList &&
+            dataList.map((v, index) => {
+              return (
+                <Box key={index} height={"290px"}>
+                  <img
+                    style={{
+                      borderRadius: "20px",
+                      minWidth: "430px",
+                    }}
+                    src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fbanners%2F2645%2F9f7c3db0.thumb_1006_280.png&w=900&q=100"
+                  />
+
+                  <Box className="bg-linear-to-b from-opacity-100 to-black w-[430px] h-[145px] relative top-[-145px] rounded-[20px]">
+                    <Box ml={4} position="relative" top="70px">
+                      <Text fontSize={20} color="white" fontWeight="bold">
+                        111퍼센트 개발자 채용
+                      </Text>
+                      <Text fontSize={12} fontWeight="bold" color="white">
+                        재밌는 게임을 만듭니다.
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
+              );
+            })}
+        </Stack>
+      </Flex>
+    </>
+
+    /* <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start"></main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -111,7 +168,7 @@ export default function Home() {
           />
           Examples
         </a>
-      </footer> */}
-    </div>
+      </footer> */
+    // </div>
   );
 }
