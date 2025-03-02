@@ -2,6 +2,18 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider } from "@/components/ui/provider";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import { IoIosMenu, IoIosNotificationsOutline } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
+import { RiMenu2Line } from "react-icons/ri";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +35,84 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const Header = () => {
+    return (
+      <Flex
+        backgroundColor="white"
+        height={59}
+        alignItems="center"
+        width="100%"
+        pl="20px"
+        pr="20px"
+        position="fixed"
+        top={0}
+        zIndex={1024}
+        borderBottom="1px solid rgba(128,128,128,0.2)"
+      >
+        <Image height="35px" src="/developer_logo_horizon.png" />
+
+        <Box className="hidden md:block">
+          <Flex gap={8}>
+            <Flex ml={8} alignItems="center" className="hover:text-purple-400">
+              <RiMenu2Line size={20} />
+              <Text fontSize={14}>채용</Text>
+            </Flex>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              커리어
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              소셜
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              이력서
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              프리랜서
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              더보기
+            </Text>
+          </Flex>
+        </Box>
+
+        <Spacer />
+        <Flex alignItems="center" gap={1}>
+          <CiSearch size={30} className="hover:text-purple-400" />
+          <IoIosNotificationsOutline
+            size={30}
+            className="hover:text-purple-400"
+          />
+
+          <Box className="hidden lg:block">
+            <Avatar.Root
+              colorPalette="blue"
+              size="sm"
+              className="hover:scale-105 ease-in-out"
+            >
+              <Avatar.Fallback />
+              <Avatar.Image src="https://bit.ly/broken-link" />
+            </Avatar.Root>
+          </Box>
+
+          <Box className="block lg:hidden">
+            <IoIosMenu size={30} className="hover:text-purple-400" />
+          </Box>
+
+          <Box className="hidden lg:block">
+            <Button variant="outline" borderRadius={12} size="sm" ml={4}>
+              기업 서비스
+            </Button>
+          </Box>
+        </Flex>
+      </Flex>
+    );
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -31,7 +121,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <Provider>
+          {/* 상단 탭바 */}
+          <Box mb="59px">
+            <Header />
+          </Box>
+          {children}
+        </Provider>
       </body>
     </html>
   );

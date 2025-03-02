@@ -1,13 +1,10 @@
 "use client";
 
-import { CiInstagram, CiSearch } from "react-icons/ci";
-import { IoIosNotificationsOutline, IoIosMenu } from "react-icons/io";
+import { CiInstagram } from "react-icons/ci";
 import { MutableRefObject, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   Image,
   Separator,
@@ -21,7 +18,6 @@ import { RxGithubLogo } from "react-icons/rx";
 import { IoLogoGooglePlaystore } from "react-icons/io5";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import { RiMenu2Line } from "react-icons/ri";
 
 const dataList = [
   {
@@ -228,83 +224,6 @@ export default function Home() {
 
   return (
     <>
-      {/* 상단 탭바 */}
-      <Flex
-        backgroundColor="white"
-        height={59}
-        alignItems="center"
-        width="100%"
-        pl="20px"
-        pr="20px"
-        position="fixed"
-        top={0}
-        zIndex={1024}
-        borderBottom="1px solid rgba(128,128,128,0.2)"
-      >
-        <Image height="35px" src="/developer_logo_horizon.png" />
-
-        <Box className="hidden md:block">
-          <Flex gap={8}>
-            <Flex ml={8} alignItems="center" className="hover:text-purple-400">
-              <RiMenu2Line size={20} />
-              <Text fontSize={14}>채용</Text>
-            </Flex>
-
-            <Text className="hover:text-purple-400" fontSize={14}>
-              커리어
-            </Text>
-
-            <Text className="hover:text-purple-400" fontSize={14}>
-              소셜
-            </Text>
-
-            <Text className="hover:text-purple-400" fontSize={14}>
-              이력서
-            </Text>
-
-            <Text className="hover:text-purple-400" fontSize={14}>
-              프리랜서
-            </Text>
-
-            <Text className="hover:text-purple-400" fontSize={14}>
-              더보기
-            </Text>
-          </Flex>
-        </Box>
-
-        <Spacer />
-        <Flex alignItems="center" gap={1}>
-          <CiSearch size={30} className="hover:text-purple-400" />
-          <IoIosNotificationsOutline
-            size={30}
-            className="hover:text-purple-400"
-          />
-
-          <Box className="hidden lg:block">
-            <Avatar.Root
-              colorPalette="blue"
-              size="sm"
-              className="hover:scale-105 ease-in-out"
-            >
-              <Avatar.Fallback />
-              <Avatar.Image src="https://bit.ly/broken-link" />
-            </Avatar.Root>
-          </Box>
-
-          <Box className="block lg:hidden">
-            <IoIosMenu size={30} className="hover:text-purple-400" />
-          </Box>
-
-          <Box className="hidden lg:block">
-            <Button variant="outline" borderRadius={12} size="sm" ml={4}>
-              기업 서비스
-            </Button>
-          </Box>
-        </Flex>
-      </Flex>
-
-      <Box mt="59px" />
-
       {/* 상단 이미지 버튼들 */}
       <Flex gap={12} mb={8} mt={20} justify="center">
         <Stack
