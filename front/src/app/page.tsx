@@ -5,9 +5,9 @@ import { IoIosNotificationsOutline, IoIosMenu } from "react-icons/io";
 import { MutableRefObject, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import {
+  Avatar,
   Box,
   Button,
-  Center,
   Flex,
   Image,
   Separator,
@@ -149,7 +149,7 @@ export default function Home() {
                 <Stack direction="column" key={index}>
                   <img
                     src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
-                    className="hover:scale-101 ease-in-out rounded-[20px] h-[170px] object-cover min-w-[250px]"
+                    className="hover:scale-101 ease-in-out rounded-[20px] h-[114px] md:h-[170px] object-cover min-w-[152px] md:min-w-[250px]"
                   />
 
                   <Text fontSize={14} fontWeight="bold">
@@ -242,32 +242,36 @@ export default function Home() {
         borderBottom="1px solid rgba(128,128,128,0.2)"
       >
         <Image height="35px" src="/developer_logo_horizon.png" />
-        <Flex gap={8} alignItems="center">
-          <Flex ml={8} alignItems="center" className="hover:text-purple-400">
-            <RiMenu2Line size={20} />
-            <Text fontSize={14}>채용</Text>
+
+        <Box className="hidden md:block">
+          <Flex gap={8}>
+            <Flex ml={8} alignItems="center" className="hover:text-purple-400">
+              <RiMenu2Line size={20} />
+              <Text fontSize={14}>채용</Text>
+            </Flex>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              커리어
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              소셜
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              이력서
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              프리랜서
+            </Text>
+
+            <Text className="hover:text-purple-400" fontSize={14}>
+              더보기
+            </Text>
           </Flex>
+        </Box>
 
-          <Text className="hover:text-purple-400" fontSize={14}>
-            커리어
-          </Text>
-
-          <Text className="hover:text-purple-400" fontSize={14}>
-            소셜
-          </Text>
-
-          <Text className="hover:text-purple-400" fontSize={14}>
-            이력서
-          </Text>
-
-          <Text className="hover:text-purple-400" fontSize={14}>
-            프리랜서
-          </Text>
-
-          <Text className="hover:text-purple-400" fontSize={14}>
-            더보기
-          </Text>
-        </Flex>
         <Spacer />
         <Flex alignItems="center" gap={1}>
           <CiSearch size={30} className="hover:text-purple-400" />
@@ -275,12 +279,33 @@ export default function Home() {
             size={30}
             className="hover:text-purple-400"
           />
-          <IoIosMenu size={30} className="hover:text-purple-400" />
+
+          <Box className="hidden lg:block">
+            <Avatar.Root
+              colorPalette="blue"
+              size="sm"
+              className="hover:scale-105 ease-in-out"
+            >
+              <Avatar.Fallback />
+              <Avatar.Image src="https://bit.ly/broken-link" />
+            </Avatar.Root>
+          </Box>
+
+          <Box className="block lg:hidden">
+            <IoIosMenu size={30} className="hover:text-purple-400" />
+          </Box>
+
+          <Box className="hidden lg:block">
+            <Button variant="outline" borderRadius={12} size="sm" ml={4}>
+              기업 서비스
+            </Button>
+          </Box>
         </Flex>
       </Flex>
 
       <Box mt="59px" />
 
+      {/* 상단 이미지 버튼들 */}
       <Flex gap={12} mb={8} mt={20} justify="center">
         <Stack
           direction="column"
@@ -324,33 +349,37 @@ export default function Home() {
           </Text>
         </Stack>
 
-        <Stack
-          direction="column"
-          alignItems="center"
-          width="100px"
-          height="100px"
-          padding={2}
-          className="hover:rounded-[15px] hover:bg-gray-100"
-        >
-          <Image src="/career-path.png" w="60px" />
-          <Text fontSize={14} color="grey">
-            지원 현황
-          </Text>
-        </Stack>
+        <Box className="hidden sm:block">
+          <Stack
+            direction="column"
+            alignItems="center"
+            width="100px"
+            height="100px"
+            padding={2}
+            className="hover:rounded-[15px] hover:bg-gray-100"
+          >
+            <Image src="/career-path.png" w="60px" />
+            <Text fontSize={14} color="grey">
+              지원 현황
+            </Text>
+          </Stack>
+        </Box>
 
-        <Stack
-          direction="column"
-          alignItems="center"
-          width="100px"
-          height="100px"
-          padding={2}
-          className="hover:rounded-[15px] hover:bg-gray-100"
-        >
-          <Image src="/growth.png" w="60px" />
-          <Text fontSize={14} color="grey">
-            직군별 연봉
-          </Text>
-        </Stack>
+        <Box className="hidden md:block">
+          <Stack
+            direction="column"
+            alignItems="center"
+            width="100px"
+            height="100px"
+            padding={2}
+            className="hover:rounded-[15px] hover:bg-gray-100"
+          >
+            <Image src="/growth.png" w="60px" />
+            <Text fontSize={14} color="grey">
+              직군별 연봉
+            </Text>
+          </Stack>
+        </Box>
       </Flex>
 
       {/* 합격 가능성이 높은 포지션 */}
@@ -380,18 +409,15 @@ export default function Home() {
               return (
                 <Box
                   key={index}
-                  className="hover:scale-101 ease-in-out h-[290px]"
+                  className="hover:scale-101 ease-in-out h-[211px] md:h-[290px]"
                 >
                   <img
-                    style={{
-                      borderRadius: "20px",
-                      minWidth: "430px",
-                    }}
+                    className="rounded-[20px] min-w-[318px] md:min-w-[436px] h-[211px] md:h-[290px] object-cover "
                     src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fbanners%2F2645%2F9f7c3db0.thumb_1006_280.png&w=900&q=100"
                   />
 
-                  <Box className="bg-linear-to-b from-opacity-100 to-black w-[430px] h-[145px] relative top-[-145px] rounded-[20px]">
-                    <Box ml={4} position="relative" top="70px">
+                  <Box className="min-w-[318px] md:min-w-[436px] h-[211px] md:h-[290px] bottom-[211px] md:bottom-[290px] relative bg-linear-to-b from-opacity-100 to-black rounded-[20px]">
+                    <Box ml={4} position="absolute" bottom="24px">
                       <Text fontSize={20} color="white" fontWeight="bold">
                         111퍼센트 개발자 채용
                       </Text>
@@ -405,6 +431,7 @@ export default function Home() {
             })}
         </Stack>
         <Box mt={50} />
+
         {/* 테마로 살펴보는 회사/포지션 */}
         <Flex direction="column">
           <Text fontWeight="bold" textStyle="lg" mb={2} mt={2}>
@@ -421,38 +448,26 @@ export default function Home() {
             {dataList &&
               dataList.map((v, index) => {
                 return (
-                  <Stack
-                    direction="column"
+                  <Box
                     key={index}
-                    borderRadius="20px"
-                    border="1px solid grey"
-                    className="hover:scale-101 ease-in-out"
+                    className="hover:scale-101 ease-in-out h-[163px] md:h-[253px]"
                   >
                     <img
-                      style={{
-                        borderTopLeftRadius: "20px",
-                        borderTopRightRadius: "20px",
-                        minWidth: "338px",
-                        height: "172px",
-                        objectFit: "cover",
-                      }}
+                      className="min-w-[218px] md:min-w-[338px] h-[163px] md:h-[253px] object-cover rounded-[20px]"
                       src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Ftag-attractions%2F10537%2F2867e5e48c664eeda77f2840e1a47096.png&w=600&q=100"
                     />
 
-                    <Box
-                      height="86px"
-                      className="bg-white rounded-b-[20px]"
-                      paddingLeft="20px"
-                      alignContent="center"
-                    >
-                      <Text fontSize={18} fontWeight="bold">
-                        인재 채용에 진심인 기업
-                      </Text>
-                      <Text fontSize={12} fontWeight="bold" color="grey">
-                        적극 채용 중
-                      </Text>
+                    <Box className="min-w-[218px] md:min-w-[338px] h-[74px] md:h-[86px] bottom-[74px] md:bottom-[86px] bg-white rounded-b-[20px] relative">
+                      <Box pl={4} pt={2}>
+                        <Text fontSize={18} fontWeight="bold">
+                          인재 채용에 진심인 기업
+                        </Text>
+                        <Text fontSize={12} fontWeight="bold" color="grey">
+                          적극 채용 중
+                        </Text>
+                      </Box>
                     </Box>
-                  </Stack>
+                  </Box>
                 );
               })}
           </Stack>
@@ -510,10 +525,15 @@ export default function Home() {
           position="absolute"
         >
           <Separator />
-          <Flex alignItems="center" p="30px">
-            <Image src="/developer_logo_horizon.png" w="150px" />
+          <Flex
+            className="flex-col md:flex-row items-start md:items-center"
+            p="30px"
+          >
+            <img src="/developer_logo_horizon.png" className="w-[150px]" />
+
             <Spacer />
-            <Flex gap={5} pr="30px">
+
+            <Flex gap={5} mt={{ base: 0, sm: 2 }}>
               <Text fontSize={16} fontWeight="bold">
                 기업소개
               </Text>
