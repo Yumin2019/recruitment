@@ -189,7 +189,7 @@ export default function PostPage() {
     );
   };
 
-  const renderTagList = (tagList: any, count: number) => {
+  const RenderTagList = (tagList: any, count: number) => {
     if (tagList.length === 0 || !tagList) {
       return <div></div>;
     }
@@ -415,12 +415,12 @@ export default function PostPage() {
       <Text fontWeight="bold" fontSize={20} mt={8}>
         기술 스택 & 툴
       </Text>
-      {renderTagList(content.techstack, 8)}
+      {RenderTagList(content.techstack, 8)}
 
       <Text fontWeight="bold" fontSize={20} mt={8}>
         태그
       </Text>
-      {renderTagList(content.tag, 6)}
+      {RenderTagList(content.tag, 6)}
 
       <Text fontWeight="bold" fontSize={20} mt={8}>
         마감일

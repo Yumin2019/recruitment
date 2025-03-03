@@ -1,7 +1,7 @@
 "use client";
 
-import { CiInstagram } from "react-icons/ci";
-import { MutableRefObject, useRef } from "react";
+import { CiBookmark, CiInstagram } from "react-icons/ci";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
 import {
   Box,
@@ -15,9 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { FaApple, FaFacebook, FaYoutube } from "react-icons/fa";
 import { RxGithubLogo } from "react-icons/rx";
-import { IoLogoGooglePlaystore } from "react-icons/io5";
+import { IoBookmark, IoLogoGooglePlaystore } from "react-icons/io5";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { mainBlue } from "@/color";
 
 const dataList = [
   {
@@ -117,7 +118,7 @@ export default function Home() {
   });
 
   // 공고 포지션 렌더링에 사용되는 함수(스크롤 처리)
-  const renderPosition = ({
+  const RenderPosition = ({
     ref,
     events,
     title,
@@ -141,31 +142,75 @@ export default function Home() {
         >
           {dataList &&
             dataList.map((v, index) => {
-              return (
-                <Stack direction="column" key={index}>
-                  <img
-                    src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
-                    className="hover:scale-101 ease-in-out rounded-[20px] h-[114px] md:h-[170px] object-cover min-w-[152px] md:min-w-[250px]"
-                  />
-
-                  <Text fontSize={14} fontWeight="bold">
-                    안드로이드 개발자 채용
-                  </Text>
-                  <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
-                    데브컴퍼니
-                  </Text>
-                  <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
-                    경력 2년 이상
-                  </Text>
-                </Stack>
-              );
+              return PositionDiv(index, false);
             })}
         </Stack>
       </Flex>
     );
   };
 
-  const renderStationPosition = ({ stationList }: { stationList: any }) => {
+  const PositionDiv = (index: number, marked: boolean) => {
+    const [isMarked, setIsMarked] = useState(marked);
+
+    useEffect(() => {
+      setIsMarked(marked);
+    }, [marked]);
+
+    return (
+      <Stack direction="column" key={index}>
+        <Box className="hover:scale-101 h-[114px] md:h-[170px]">
+          <img
+            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
+            className="ease-in-out rounded-[20px] h-[114px] md:h-[170px] object-cover min-w-[152px] md:min-w-[250px]"
+          />
+          <Flex
+            className="bg-linear-to-t from-opacity-100 to-black/40 rounded-t-[20px] min-w-[152px] md:min-w-[250px] relative top-[-110px] md:top-[-183px]"
+            p="12px"
+          >
+            <Text fontSize={{ base: 12, md: 14 }} color="white">
+              합격보상금 100만원
+            </Text>
+
+            <Spacer />
+
+            {!isMarked && (
+              <CiBookmark
+                size="25px"
+                color="white"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
+
+            {isMarked && (
+              <IoBookmark
+                size="25px"
+                color={mainBlue}
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
+          </Flex>
+        </Box>
+
+        <Text fontSize={14} fontWeight="bold" mt={{ base: 0, md: 4 }}>
+          안드로이드 개발자 채용
+        </Text>
+        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+          데브컴퍼니
+        </Text>
+        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+          경력 2년 이상
+        </Text>
+      </Stack>
+    );
+  };
+
+  const RenderStationPosition = ({ stationList }: { stationList: any }) => {
     if (stationList.length === 0 || !stationList) {
       return <div></div>;
     }
@@ -303,7 +348,7 @@ export default function Home() {
 
       {/* 합격 가능성이 높은 포지션 */}
       <Box ml="20px" mr="20px">
-        {renderPosition({
+        {RenderPosition({
           ref: scrollRefPos,
           events: scrollResPosEvents,
           title: "합격 가능성이 높은 포지션",
@@ -393,7 +438,7 @@ export default function Home() {
         </Flex>
         <Box mt={50} />
         {/* 최근 본 포지션 */}
-        {renderPosition({
+        {RenderPosition({
           ref: scrollRefRecent,
           events: scrollResRecentEvents,
           title: "최근 본 포지션",
@@ -421,12 +466,12 @@ export default function Home() {
             {...scrollResStationEvents}
             ref={scrollRefStation}
           >
-            {renderStationPosition({ stationList: dataList })}
+            {RenderStationPosition({ stationList: dataList })}
           </Stack>
         </Flex>
         <Box mt={50} />
         {/* 적극 채용 중 포지션 어때요? */}
-        {renderPosition({
+        {RenderPosition({
           ref: scrollRefNow,
           events: scrollResNowEvents,
           title: "적극 채용 중 포지션 어때요?",
