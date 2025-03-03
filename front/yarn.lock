@@ -597,6 +597,18 @@
     postcss "^8.4.41"
     tailwindcss "4.0.9"
 
+"@types/geojson@*":
+  version "7946.0.16"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
+  integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
+
+"@types/navermaps@^3.7.9":
+  version "3.7.9"
+  resolved "https://registry.yarnpkg.com/@types/navermaps/-/navermaps-3.7.9.tgz#42dc1c5415eddd9d947a3ba573a9b48a854bb7f6"
+  integrity sha512-5ZazQfVRq9P1+QbpJ8PA5W9CnsdtWQEiGG6ZWTJuNXzu4iQXov9rRMaWIdD5g+eIKZ2cI1CDE49zYUwUAXNqQQ==
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/node@^20":
   version "20.17.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.17.19.tgz#0f2869555719bef266ca6e1827fcdca903c1a697"

@@ -14,6 +14,7 @@ import {
 import { IoIosMenu, IoIosNotificationsOutline } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { RiMenu2Line } from "react-icons/ri";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -113,6 +114,8 @@ export default function RootLayout({
     );
   };
 
+  const naverMapSrc = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NAVER_MAP_CLIENT_ID}`;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -126,8 +129,11 @@ export default function RootLayout({
           <Box mb="59px">
             <Header />
           </Box>
+          <Toaster />
           {children}
         </Provider>
+
+        <script type="text/javascript" src={naverMapSrc} />
       </body>
     </html>
   );
