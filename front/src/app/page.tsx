@@ -18,7 +18,9 @@ import { RxGithubLogo } from "react-icons/rx";
 import { IoBookmark, IoLogoGooglePlaystore } from "react-icons/io5";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { PositionDiv } from "@/components/position-div";
 import { mainBlue } from "@/color";
+import { Footer } from "@/components/footer";
 
 const dataList = [
   {
@@ -29,33 +31,33 @@ const dataList = [
   },
   {
     image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
   },
   {
     image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
   },
   {
     image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
   },
   {
     image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
   },
   {
     image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
-  },
-  {
-    image: "/developer_logo.png",
-    title: "React Developer",
-    content: "React Developer with experience in web application development.",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
   },
 ];
 
@@ -146,67 +148,6 @@ export default function Home() {
             })}
         </Stack>
       </Flex>
-    );
-  };
-
-  const PositionDiv = (index: number, marked: boolean) => {
-    const [isMarked, setIsMarked] = useState(marked);
-
-    useEffect(() => {
-      setIsMarked(marked);
-    }, [marked]);
-
-    return (
-      <Stack direction="column" key={index}>
-        <Box className="hover:scale-101 h-[114px] md:h-[170px]">
-          <img
-            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
-            className="ease-in-out rounded-[20px] h-[114px] md:h-[170px] object-cover min-w-[152px] md:min-w-[250px]"
-          />
-          <Flex
-            className="bg-linear-to-t from-opacity-100 to-black/40 rounded-t-[20px] min-w-[152px] md:min-w-[250px] relative top-[-110px] md:top-[-183px]"
-            p="12px"
-          >
-            <Text fontSize={{ base: 12, md: 14 }} color="white">
-              합격보상금 100만원
-            </Text>
-
-            <Spacer />
-
-            {!isMarked && (
-              <CiBookmark
-                size="25px"
-                color="white"
-                onClick={() => {
-                  let value = !isMarked;
-                  setIsMarked(value);
-                }}
-              />
-            )}
-
-            {isMarked && (
-              <IoBookmark
-                size="25px"
-                color={mainBlue}
-                onClick={() => {
-                  let value = !isMarked;
-                  setIsMarked(value);
-                }}
-              />
-            )}
-          </Flex>
-        </Box>
-
-        <Text fontSize={14} fontWeight="bold" mt={{ base: 0, md: 4 }}>
-          안드로이드 개발자 채용
-        </Text>
-        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
-          데브컴퍼니
-        </Text>
-        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
-          경력 2년 이상
-        </Text>
-      </Stack>
     );
   };
 
@@ -376,11 +317,11 @@ export default function Home() {
                   className="hover:scale-101 ease-in-out h-[211px] md:h-[290px]"
                 >
                   <img
-                    className="rounded-[20px] min-w-[318px] md:min-w-[436px] h-[211px] md:h-[290px] object-cover "
+                    className="rounded-[20px] w-[318px] md:w-[436px] h-[211px] md:h-[290px] object-cover "
                     src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fbanners%2F2645%2F9f7c3db0.thumb_1006_280.png&w=900&q=100"
                   />
 
-                  <Box className="min-w-[318px] md:min-w-[436px] h-[211px] md:h-[290px] bottom-[211px] md:bottom-[290px] relative bg-linear-to-b from-opacity-100 to-black rounded-[20px]">
+                  <Box className="w-[318px] md:w-[436px] h-[211px] md:h-[290px] bottom-[211px] md:bottom-[290px] relative bg-linear-to-b from-opacity-100 to-black rounded-[20px]">
                     <Box ml={4} position="absolute" bottom="24px">
                       <Text fontSize={20} color="white" fontWeight="bold">
                         111퍼센트 개발자 채용
@@ -417,12 +358,12 @@ export default function Home() {
                     className="hover:scale-101 ease-in-out h-[163px] md:h-[253px]"
                   >
                     <img
-                      className="min-w-[218px] md:min-w-[338px] h-[163px] md:h-[253px] object-cover rounded-[20px]"
+                      className="w-[218px] md:w-[338px] h-[163px] md:h-[253px] object-cover rounded-[20px]"
                       src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Ftag-attractions%2F10537%2F2867e5e48c664eeda77f2840e1a47096.png&w=600&q=100"
                     />
 
-                    <Box className="min-w-[218px] md:min-w-[338px] h-[74px] md:h-[86px] bottom-[74px] md:bottom-[86px] bg-white rounded-b-[20px] relative">
-                      <Box pl={4} pt={2}>
+                    <Box className="w-[218px] md:w-[338px] h-[74px] md:h-[86px] bottom-[74px] md:bottom-[86px] bg-white rounded-b-[20px] relative">
+                      <Box pl={4} pt={4}>
                         <Text fontSize={18} fontWeight="bold">
                           인재 채용에 진심인 기업
                         </Text>
@@ -480,97 +421,7 @@ export default function Home() {
         <Box mt={450} />
 
         {/* 푸터 영역 */}
-        <Box
-          bg="white"
-          h={300}
-          bottom={0}
-          left={0}
-          right={0}
-          position="absolute"
-        >
-          <Separator />
-          <Flex
-            className="flex-col md:flex-row items-start md:items-center"
-            p="30px"
-          >
-            <img src="/developer_logo_horizon.png" className="w-[150px]" />
-
-            <Spacer />
-
-            <Flex gap={5} mt={{ base: 0, sm: 2 }}>
-              <Text fontSize={16} fontWeight="bold">
-                기업소개
-              </Text>
-              <Text fontSize={16} fontWeight="bold">
-                광고문의
-              </Text>
-              <Text fontSize={16} fontWeight="bold">
-                고객센터
-              </Text>
-              <Text fontSize={16} fontWeight="bold">
-                이용약관
-              </Text>
-              <Text fontSize={16} fontWeight="bold">
-                블로그
-              </Text>
-              <Text fontSize={16} fontWeight="bold">
-                개인정보 처리방침
-              </Text>
-            </Flex>
-          </Flex>
-
-          <Stack direction="column" mt="0px" pl="30px" pr="30px">
-            <Text fontSize={14} color="grey">
-              (주)디벨로퍼랩 | 대표이사 디벨로퍼
-            </Text>
-            <Text fontSize={14} color="grey">
-              서울특별시 마포구 아현동 | 전화번호: 010-6464-2211
-            </Text>
-            <Text fontSize={14} color="grey">
-              사업자등록번호: 111-11-11111 | 통신판매번호: 1111-서울-1111 |
-              유료직업소개사업등록번호: (국내) 제1111-111111-11-1-11111호
-            </Text>
-
-            <Flex gap={4}>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                채용서비스 문의
-              </Text>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                디벨로퍼스페이스 문의
-              </Text>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                디벨로퍼긱스 문의
-              </Text>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                프리온보딩 문의
-              </Text>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                취업지원시스템 문의
-              </Text>
-              <Text fontSize={14} color="gray" fontWeight="bold" mt="20px">
-                IR 문의
-              </Text>
-            </Flex>
-          </Stack>
-
-          <Separator mt="20px" />
-
-          <Flex pl="30px" pt="20px" alignItems="center">
-            <Text fontSize={14} fontWeight="bold" color="grey">
-              © 2025 Developer Lab, Inc.
-            </Text>
-            <Spacer />
-
-            <Flex gap="10px" pr="30px">
-              <CiInstagram size="22px" />
-              <FaFacebook size="22px" />
-              <RxGithubLogo size="22px" />
-              <FaYoutube size="22px" />
-              <FaApple size="22px" />
-              <IoLogoGooglePlaystore size="22px" />
-            </Flex>
-          </Flex>
-        </Box>
+        <Footer />
       </Flex>
     </>
   );

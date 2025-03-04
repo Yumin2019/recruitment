@@ -7,12 +7,14 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Flex,
   Heading,
   IconButton,
   Image,
   Input,
   Separator,
+  SimpleGrid,
   Spacer,
   Stack,
   Text,
@@ -45,6 +47,14 @@ import {
 } from "@/color";
 import { infoToast, successToast } from "@/util";
 import { AccordionItemTrigger } from "@/components/ui/accordion";
+import { PositionDiv } from "@/components/position-div";
+import { IoBookmark } from "react-icons/io5";
+import { Footer } from "@/components/footer";
+import {
+  IoIosArrowForward,
+  IoIosInformationCircleOutline,
+} from "react-icons/io";
+import { FcDocument, FcOk } from "react-icons/fc";
 
 const content = {
   position: `<p style="color: black; font-size: 15px;">
@@ -114,6 +124,45 @@ const content = {
     "누적투자100억이상",
   ],
 };
+
+const dataList = [
+  {
+    image: "/developer_logo.png",
+    title: "React Native Developer",
+    content:
+      "React Native Developer with experience in mobile application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+  {
+    image: "/developer_logo.png",
+    title: "React Developer",
+    content: "React Developer with experience in web application development.",
+  },
+];
 
 export default function PostPage() {
   const [isMarked, setIsMarked] = useState(false);
@@ -186,6 +235,350 @@ export default function PostPage() {
           <DialogCloseTrigger />
         </DialogContent>
       </DialogRoot>
+    );
+  };
+
+  const ResumeInfoButtonWithDialog = (children: any) => {
+    return (
+      <DialogRoot
+        placement="center"
+        motionPreset="slide-in-bottom"
+        onOpenChange={(v) => {}}
+        size="sm"
+      >
+        <DialogTrigger asChild>{children}</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle fontSize={20}>
+              <Text>내 이력서의 경험과 역량이</Text>
+              <Text>이 포지션과는 좀 다른 것 같아요.</Text>
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody textAlign="center">
+            <Text fontSize={15} textAlign="start">
+              이력서를 보완하면 합격 점수를 높일 수 있어요.
+            </Text>
+
+            <Flex alignItems="center" gapX={3} mt={6}>
+              <Box bg={containerGrey} borderRadius={8} p="8px">
+                <FcDocument size={30} />
+              </Box>
+
+              <Box textAlign="start">
+                <Text fontSize={16} fontWeight="bold">
+                  이력과 강점을 구체적으로 설명해 주세요.
+                </Text>
+
+                <Text fontSize={14} color="grey" mt={1}>
+                  직무와 연차가 적합해도 강점이 드러나지 않으면 서류에서 탈락할
+                  수 있어요.
+                </Text>
+              </Box>
+            </Flex>
+
+            <Flex alignItems="center" gapX={3} mt={5}>
+              <Box bg={containerGrey} borderRadius={8} p="8px">
+                <FcOk size={30} />
+              </Box>
+
+              <Box textAlign="start">
+                <Text fontSize={16} fontWeight="bold">
+                  포지션에 맞는 이력서인지 확인해 보세요
+                </Text>
+
+                <Text fontSize={14} color="grey" mt={1}>
+                  담당 업무를 수행할 수 있는 프로젝트 경험과 성과가 잘
+                  드러나도록 작성해 보세요.
+                </Text>
+              </Box>
+            </Flex>
+          </DialogBody>
+          <DialogCloseTrigger />
+        </DialogContent>
+      </DialogRoot>
+    );
+  };
+
+  const RewardInfoButtonWithDialog = (children: any) => {
+    return (
+      <DialogRoot
+        placement="center"
+        motionPreset="slide-in-bottom"
+        onOpenChange={(v) => {}}
+        size="sm"
+      >
+        <DialogTrigger asChild>{children}</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle fontSize={20} textAlign="center">
+              합격보상 안내
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody textAlign="center">
+            <Center>
+              <Image src="/friends.png" w="128px" />
+            </Center>
+
+            <Text fontSize={15} mt={6}>
+              지원자가 받을 수 있는 보상
+            </Text>
+            <Text fontSize={16} color={mainBlue} fontWeight="bold" mt={1}>
+              현금 50만원 + 50만P
+            </Text>
+
+            <Text fontSize={15} mt={5}>
+              추천인이 받을 수 있는 보상
+            </Text>
+            <Text fontSize={16} color={mainBlue} fontWeight="bold" mt={1}>
+              현금 50만원 + 50만P
+            </Text>
+
+            <Text fontSize={13} color={textGrey} mt={4}>
+              *추천인이 없는 경우에도 지원자에게 합격보상이 제공됩니다.
+            </Text>
+
+            <DialogActionTrigger asChild>
+              <Button
+                colorPalette="blue"
+                size="lg"
+                borderRadius={10}
+                w="100%"
+                mt={6}
+              >
+                확인
+              </Button>
+            </DialogActionTrigger>
+
+            <Button variant="ghost" size="sm" mt={4}>
+              <Text fontSize={14} color={textGrey}>
+                포인트 더 알아보기
+              </Text>
+              <IoIosArrowForward color={textGrey} />
+            </Button>
+          </DialogBody>
+          <DialogCloseTrigger />
+        </DialogContent>
+      </DialogRoot>
+    );
+  };
+
+  const InnerPage = () => {
+    return (
+      <Stack direction="column">
+        <Flex mt="30px">
+          <Text fontSize={16} fontWeight="bold" textDecor="underline">
+            디벨로퍼랩
+          </Text>
+
+          <Text ml="20px" fontSize={14} color={textGrey}>
+            서울 강남구
+          </Text>
+
+          <Text ml="20px" fontSize={14} color={textGrey}>
+            경력 3~10년
+          </Text>
+          <Spacer />
+
+          <Flex gap={2} alignItems="center">
+            <CiBookmark
+              size="25px"
+              color={isMarked ? mainBlue : mainGrey}
+              className="hover:bg-gray-100"
+              onClick={() => {
+                let value = !isMarked;
+                setIsMarked(value);
+                if (value) {
+                  successToast("북마크에 저장되었습니다.");
+                }
+              }}
+            />
+            <BsBuildingAdd
+              size="22px"
+              color={isCompany ? mainBlue : mainGrey}
+              className="hover:bg-gray-100"
+              onClick={() => {
+                let value = !isCompany;
+                setIsCompany(value);
+                if (value) {
+                  successToast("팔로우 완료. 채용알림을 받게 됩니다.");
+                }
+              }}
+            />
+
+            {ShareButtonWithDialog(
+              <MdOutlineIosShare
+                size="25px"
+                color="grey"
+                className="hover:bg-gray-100"
+              />
+            )}
+          </Flex>
+        </Flex>
+
+        <Heading size="3xl" fontWeight="bold" mb={2}>
+          [디벨로퍼랩] Flutter 개발자
+        </Heading>
+        <Separator />
+        <Flex alignItems="center" mt={2} mb={2}>
+          <PiChatTeardropDotsFill size="24px" color="skyBlue" />
+          <Text fontSize={15} fontWeight="bold" ml={2}>
+            응답률
+          </Text>
+          <Text fontSize={14} ml={8}>
+            매우 높음
+          </Text>
+        </Flex>
+        <Separator />
+
+        {/* 회사에서 서술한 내용 */}
+        <Text fontWeight="bold" fontSize={22} mt={8}>
+          포지션 상세
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.position }} />
+
+        <Text fontWeight="bold" fontSize={20}>
+          주요업무
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.work }} />
+
+        <Text fontWeight="bold" fontSize={20}>
+          자격요건
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.requirement }} />
+
+        <Text fontWeight="bold" fontSize={20}>
+          우대사항
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.preferential }} />
+
+        <Text fontWeight="bold" fontSize={20}>
+          혜택 및 복지
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.benefit }} />
+
+        <Text fontWeight="bold" fontSize={20}>
+          채용 전형
+        </Text>
+        <Prose dangerouslySetInnerHTML={{ __html: content.process }} />
+
+        <Text fontWeight="bold" fontSize={20} mt={8}>
+          기술 스택 & 툴
+        </Text>
+        {RenderTagList(content.techstack, 8)}
+
+        <Text fontWeight="bold" fontSize={20} mt={8}>
+          태그
+        </Text>
+        {RenderTagList(content.tag, 6)}
+
+        <Text fontWeight="bold" fontSize={20} mt={8}>
+          마감일
+        </Text>
+
+        <Text fontSize={16}>상시채용</Text>
+
+        <Text fontWeight="bold" fontSize={20} mt={8}>
+          근무지역
+        </Text>
+
+        {/* Naver 지도 */}
+        <Box border={attrBorderGrey} borderRadius="20px">
+          <Box
+            id="map"
+            className="min-w-[218px] md:min-w-[338px] h-[110px] md:h-[203px] rounded-t-[20px]"
+            onClick={() => {
+              // 링크 수정 필요
+              window.open("https://www.mozilla.org/", "mozillaWindow", "popup");
+              // https://map.naver.com/p?title=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%84%A0%EB%A6%89%EB%A1%9C92%EA%B8%B8%2028&lng=127.0509342&lat=37.5057526&zoom=17&type=0&c=17.00,0,0,0,dh
+            }}
+          />
+          <Box
+            className="w-[218px] md:w-[338px] h-[50px] md:h-[50px] bg-white rounded-b-[20px] content-center"
+            pl={4}
+          >
+            <Text fontSize={16}>서울 마포구 땡땡100길 28, 땡땡빌딩 5층</Text>
+          </Box>
+        </Box>
+
+        <Box bg={containerGrey} p="20px" borderRadius="12px" mt="32px">
+          <Flex gap={2}>
+            <Image
+              src="/developer_logo.png"
+              w="46px"
+              h="46px"
+              border={attrBorderGrey}
+              borderRadius="10px"
+              onClick={() => {
+                // 회사 페이지
+              }}
+            />
+            <Stack
+              direction="column"
+              gap={0}
+              alignSelf="center"
+              onClick={() => {
+                // 회사 페이지
+              }}
+            >
+              <Text fontSize={14} fontWeight="bold">
+                디밸로퍼랩
+              </Text>
+              <Text fontSize={12} color={textGrey}>
+                IT, 컨텐츠
+              </Text>
+            </Stack>
+            <Spacer />
+            <Text
+              color={mainBlue}
+              fontWeight="bold"
+              fontSize={14}
+              alignSelf="center"
+              className="hover:bg-blue-100 rounded-[5px]"
+            >
+              팔로우
+            </Text>
+          </Flex>
+        </Box>
+
+        <AccordionRoot
+          collapsible
+          size="sm"
+          variant="plain"
+          bg={containerGrey}
+          p="10px"
+          borderRadius="12px"
+        >
+          <AccordionItem value="value">
+            <AccordionItemTrigger>
+              <Text fontSize={14}>
+                본 채용정보는 디밸로퍼랩의 동의없이 무단전재, 재배포, 재가공할
+                수 없으며, 구직활동 이외의 용도로 사용할 수 없습니다.
+              </Text>
+            </AccordionItemTrigger>
+            <AccordionItemContent>
+              <Separator />
+              <Text fontSize={14} mt={4}>
+                {`본 채용 정보는 '${"Company"}'에서 제공한 자료를 바탕으로
+          디밸로퍼랩에서 표현을 수정하고 이의 배열 및 구성을 편집하여 완성한
+          디벨로퍼랩의 저작자산이자 영업자산입니다. 본 정보 및
+          데이터베이스의 일부 내지는 전부에 대하여 디밸로퍼랩의 동의 없이
+          무단전재 또는 재배포, 재가공 및 크롤링할 수 없으며, 게재된
+          채용기업의 정보는 구직자의 구직활동 이외의 용도로 사용될 수
+          없습니다. 디밸로퍼랩은 '${"Company"}'에서 게재한 자료에 대한 오류나 그 밖에 디벨로퍼랩이 가공하지 않은
+          정보의 내용상 문제에 대하여 어떠한 보장도 하지 않으며, 사용자가
+          이를 신뢰하여 취한 조치에 대해 책임을 지지 않습니다.`}
+              </Text>
+              <Text
+                mb={2}
+                mt="1px"
+                fontSize={14}
+                fontWeight="bold"
+                color="grey"
+              >{`<저작권자 (주)디벨로퍼랩. 무단전재-재배포금지>`}</Text>
+            </AccordionItemContent>
+          </AccordionItem>
+        </AccordionRoot>
+      </Stack>
     );
   };
 
@@ -271,270 +664,199 @@ export default function PostPage() {
     initMap();
   }, []);
 
-  return (
-    <Stack direction="column" pl="100px" pr="100px" pt="30px">
-      {/* 회사 사진첩  */}
-      {/* <Flex alignItems="center" h="275px">
-        <Flex flex={1}>
-          <Image
-            className="rounded-l-2xl object-cover max-w-[10%]"
-            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
-          />
-        </Flex>
-        <Box ml={2} />
-        <Flex flex={1}>
-          <Image
-            className="rounded-r-2xl object-cover"
-            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
-          />
-        </Flex>
-      </Flex> */}
+  const PositionDiv = (index: number, marked: boolean) => {
+    const [isMarked, setIsMarked] = useState(marked);
+    //   useEffect(() => {
+    //     setIsMarked(marked);
+    //   }, [marked]);
 
-      {/* 사진 이동 버튼  */}
-      {/* <Stack direction="row" h={0}>
+    return (
+      <Stack direction="column" key={index} className="w-[260px] md:w-[214px]">
+        <Box className="hover:scale-101 h-[170px] md:h-[114px]">
+          <img
+            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F38576%2Fasqwioroxlcs4syg__1080_790.png&w=700&q=100"
+            className="ease-in-out rounded-[20px] h-[170px] md:h-[114px] object-cover"
+          />
+          <Flex
+            className="bg-linear-to-t from-opacity-100 to-black/40 rounded-t-[20px] relative top-[-190px] md:top-[-157px]"
+            alignItems="center"
+            p="12px"
+          >
+            <Text fontSize={14} color="white">
+              합격보상금 100만원
+            </Text>
+
+            <Spacer />
+
+            {!isMarked && (
+              <CiBookmark
+                size="22px"
+                color="white"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
+
+            {isMarked && (
+              <IoBookmark
+                size="22px"
+                color={mainBlue}
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
+          </Flex>
+        </Box>
+
+        <Text fontSize={14} fontWeight="bold" mt={{ base: 4, md: 11 }}>
+          안드로이드 개발자 채용
+        </Text>
+        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+          데브컴퍼니
+        </Text>
+        <Text mt={-2} fontSize={12} fontWeight="bold" color="grey">
+          경력 2년 이상
+        </Text>
+      </Stack>
+    );
+  };
+
+  return (
+    <Stack direction="column" pl="50px" pr="50px" pt="30px">
+      {/* 회사 사진첩  */}
+      <Flex gap="8px" alignItems="center">
         <IconButton
           aria-label="ArrowLeft"
           rounded="full"
           size="md"
           variant="surface"
           colorPalette="white"
-          className="absolute top-[-157px] left-[8px]"
+          zIndex={5}
+          className="relative left-[12px]"
         >
           <FaArrowLeft />
         </IconButton>
-        <Spacer />
+
+        <Image
+          className="rounded-l-2xl object-cover w-[50%] max-h-[350px] relative left-[-48px]"
+          src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
+        />
+        <Image
+          className="rounded-r-2xl object-cover w-[50%] max-h-[350px] relative left-[-48px]"
+          src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
+        />
+
         <IconButton
-          aria-label="ArrowLeft"
+          aria-label="ArrowRight"
           rounded="full"
           size="md"
           variant="surface"
           colorPalette="white"
-          className="absolute top-[-157px] right-[8px]"
+          zIndex={5}
+          className="relative left-[-108px]"
         >
           <FaArrowRight />
         </IconButton>
-      </Stack> */}
-
-      {/* 회사명, 위치, 제목 */}
-      <Flex mt="30px">
-        <Text fontSize={16} fontWeight="bold" textDecor="underline">
-          디벨로퍼랩
-        </Text>
-
-        <Text ml="20px" fontSize={14} color={textGrey}>
-          서울 강남구
-        </Text>
-
-        <Text ml="20px" fontSize={14} color={textGrey}>
-          경력 3~10년
-        </Text>
-        <Spacer />
-
-        <Flex gap={2} alignItems="center">
-          <CiBookmark
-            size="25px"
-            color={isMarked ? mainBlue : mainGrey}
-            className="hover:bg-gray-100"
-            onClick={() => {
-              let value = !isMarked;
-              setIsMarked(value);
-              if (value) {
-                successToast("북마크에 저장되었습니다.");
-              }
-            }}
-          />
-          <BsBuildingAdd
-            size="22px"
-            color={isCompany ? mainBlue : mainGrey}
-            className="hover:bg-gray-100"
-            onClick={() => {
-              let value = !isCompany;
-              setIsCompany(value);
-              if (value) {
-                successToast("팔로우 완료. 채용알림을 받게 됩니다.");
-              }
-            }}
-          />
-
-          {ShareButtonWithDialog(
-            <MdOutlineIosShare
-              size="25px"
-              color="grey"
-              className="hover:bg-gray-100"
-            />
-          )}
-        </Flex>
       </Flex>
 
-      <Heading size="3xl" fontWeight="bold" mb={2}>
-        [디벨로퍼랩] Flutter 개발자
-      </Heading>
-      <Separator />
-      <Flex alignItems="center" mt={2} mb={2}>
-        <PiChatTeardropDotsFill size="24px" color="skyBlue" />
-        <Text fontSize={15} fontWeight="bold" ml={2}>
-          응답률
-        </Text>
-        <Text fontSize={14} ml={8}>
-          매우 높음
-        </Text>
-      </Flex>
-      <Separator />
-
-      {/* 회사에서 서술한 내용 */}
-      <Text fontWeight="bold" fontSize={22} mt={8}>
-        포지션 상세
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.position }} />
-
-      <Text fontWeight="bold" fontSize={20}>
-        주요업무
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.work }} />
-
-      <Text fontWeight="bold" fontSize={20}>
-        자격요건
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.requirement }} />
-
-      <Text fontWeight="bold" fontSize={20}>
-        우대사항
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.preferential }} />
-
-      <Text fontWeight="bold" fontSize={20}>
-        혜택 및 복지
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.benefit }} />
-
-      <Text fontWeight="bold" fontSize={20}>
-        채용 전형
-      </Text>
-      <Prose dangerouslySetInnerHTML={{ __html: content.process }} />
-
-      <Text fontWeight="bold" fontSize={20} mt={8}>
-        기술 스택 & 툴
-      </Text>
-      {RenderTagList(content.techstack, 8)}
-
-      <Text fontWeight="bold" fontSize={20} mt={8}>
-        태그
-      </Text>
-      {RenderTagList(content.tag, 6)}
-
-      <Text fontWeight="bold" fontSize={20} mt={8}>
-        마감일
-      </Text>
-
-      <Text fontSize={16}>상시채용</Text>
-
-      <Text fontWeight="bold" fontSize={20} mt={8}>
-        근무지역
-      </Text>
-
-      {/* Naver 지도 */}
-      <Box border={attrBorderGrey} borderRadius="20px">
-        <Box
-          id="map"
-          className="min-w-[218px] md:min-w-[338px] h-[110px] md:h-[203px] rounded-t-[20px]"
-          onClick={() => {
-            // 링크 수정 필요
-            window.open("https://www.mozilla.org/", "mozillaWindow", "popup");
-            // https://map.naver.com/p?title=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%EC%84%A0%EB%A6%89%EB%A1%9C92%EA%B8%B8%2028&lng=127.0509342&lat=37.5057526&zoom=17&type=0&c=17.00,0,0,0,dh
-          }}
-        />
-        <Box
-          className="min-w-[218px] md:min-w-[338px] h-[50px] md:h-[50px] bg-white rounded-b-[20px] content-center"
-          pl={4}
-        >
-          <Text fontSize={16}>서울 마포구 땡땡100길 28, 땡땡빌딩 5층</Text>
+      <Flex gapX={8} alignItems="flex-start">
+        <Box flex={6}>
+          {/* 내부 페이지(채용 공고) */}
+          <InnerPage />
         </Box>
-      </Box>
-
-      <Box bg={containerGrey} p="20px" borderRadius="12px" mt="32px">
-        <Flex gap={2}>
-          <Image
-            src="/developer_logo.png"
-            w="46px"
-            h="46px"
-            border={attrBorderGrey}
-            borderRadius="10px"
-            onClick={() => {
-              // 회사 페이지
-            }}
-          />
-          <Stack
-            direction="column"
-            gap={0}
-            alignSelf="center"
-            onClick={() => {
-              // 회사 페이지
-            }}
+        <Box flex={3} className="sticky top-[40px]">
+          <Button
+            colorPalette="blue"
+            w="100%"
+            borderRadius={8}
+            mt="30px"
+            fontSize={16}
+            size="lg"
           >
-            <Text fontSize={14} fontWeight="bold">
-              디밸로퍼랩
-            </Text>
-            <Text fontSize={12} color={textGrey}>
-              IT, 컨텐츠
-            </Text>
-          </Stack>
-          <Spacer />
-          <Text
-            color={mainBlue}
-            fontWeight="bold"
-            fontSize={14}
-            alignSelf="center"
-            className="hover:bg-blue-100 rounded-[5px]"
-          >
-            팔로우
-          </Text>
-        </Flex>
-      </Box>
+            지원하기
+          </Button>
 
-      <AccordionRoot
-        collapsible
-        size="sm"
-        variant="plain"
-        bg={containerGrey}
-        p="10px"
-        borderRadius="12px"
-      >
-        <AccordionItem value="value">
-          <AccordionItemTrigger>
-            <Text fontSize={14}>
-              본 채용정보는 디밸로퍼랩의 동의없이 무단전재, 재배포, 재가공할 수
-              없으며, 구직활동 이외의 용도로 사용할 수 없습니다.
-            </Text>
-          </AccordionItemTrigger>
-          <AccordionItemContent>
-            <Separator />
-            <Text fontSize={14} mt={4}>
-              {`본 채용 정보는 '${"Company"}'에서 제공한 자료를 바탕으로
-              디밸로퍼랩에서 표현을 수정하고 이의 배열 및 구성을 편집하여 완성한
-              디벨로퍼랩의 저작자산이자 영업자산입니다. 본 정보 및
-              데이터베이스의 일부 내지는 전부에 대하여 디밸로퍼랩의 동의 없이
-              무단전재 또는 재배포, 재가공 및 크롤링할 수 없으며, 게재된
-              채용기업의 정보는 구직자의 구직활동 이외의 용도로 사용될 수
-              없습니다. 디밸로퍼랩은 '${"Company"}'에서 게재한 자료에 대한 오류나 그 밖에 디벨로퍼랩이 가공하지 않은
-              정보의 내용상 문제에 대하여 어떠한 보장도 하지 않으며, 사용자가
-              이를 신뢰하여 취한 조치에 대해 책임을 지지 않습니다.`}
-            </Text>
-            <Text
-              mb={2}
-              mt="1px"
-              fontSize={14}
-              fontWeight="bold"
-              color="grey"
-            >{`<저작권자 (주)디벨로퍼랩. 무단전재-재배포금지>`}</Text>
-          </AccordionItemContent>
-        </AccordionItem>
-      </AccordionRoot>
+          <Box bg={containerGrey} borderRadius={20} p={4} mt={4}>
+            <Flex>
+              <Image src="/document.png" h={10} />
+
+              <Text fontSize={16} fontWeight="bold" ml={1}>
+                이력서를 보완하고 합격 점수를 높이세요.
+              </Text>
+              <Spacer />
+
+              {ResumeInfoButtonWithDialog(
+                <IconButton
+                  aria-label="ArrowRight"
+                  rounded="full"
+                  size="md"
+                  variant="ghost"
+                  zIndex={5}
+                >
+                  <IoIosInformationCircleOutline color="grey" />
+                </IconButton>
+              )}
+            </Flex>
+
+            <Button
+              variant="outline"
+              borderRadius={12}
+              alignItems="center"
+              w="100%"
+              size="lg"
+              p={6}
+              mt={4}
+            >
+              <Text color={mainBlue} fontWeight="bold">
+                이력서 보완하기
+              </Text>
+            </Button>
+          </Box>
+
+          <Box bg={containerGrey} borderRadius={20} p={4} mt={4}>
+            <Flex alignItems="center">
+              <Text fontSize={14} fontWeight="bold">
+                합격보상
+              </Text>
+              <Box ml={4}>
+                <Text fontSize={14}>지원자, 추천인</Text>
+                <Text fontSize={14}>각 현금 50만원 + 50만P</Text>
+              </Box>
+              <Spacer />
+
+              {RewardInfoButtonWithDialog(
+                <IconButton
+                  aria-label="ArrowRight"
+                  rounded="full"
+                  size="md"
+                  variant="ghost"
+                  zIndex={5}
+                >
+                  <IoIosInformationCircleOutline color="grey" />
+                </IconButton>
+              )}
+            </Flex>
+          </Box>
+        </Box>
+      </Flex>
 
       <Text fontWeight="bold" fontSize={20} mt="60px">
         땡땡이님을 위한 추천 포지션
       </Text>
 
+      {/* 채용공고 리스트업 */}
+      <SimpleGrid columns={{ base: 2, md: 3, lg: 4, xl: 5 }} gapY={5}>
+        {dataList.map((v, index) => {
+          return PositionDiv(index, false);
+        })}
+      </SimpleGrid>
+
       <Box mt={400}></Box>
+      <Footer />
     </Stack>
   );
 }
