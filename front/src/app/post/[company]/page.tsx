@@ -362,6 +362,73 @@ export default function PostPage() {
     );
   };
 
+  const MiddleViewWhenSM = () => {
+    return (
+      <Box className="block md:hidden">
+        <Box bg={containerGrey} borderRadius={20} p={4} mt={4}>
+          <Flex alignItems="center">
+            <Image src="/document.png" h={10} />
+
+            <Text fontSize={16} fontWeight="bold" ml={1}>
+              이력서를 보완하고 합격 점수를 높이세요.
+            </Text>
+            <Spacer />
+
+            {ResumeInfoButtonWithDialog(
+              <IconButton
+                aria-label="ArrowRight"
+                rounded="full"
+                size="md"
+                variant="ghost"
+                zIndex={5}
+              >
+                <IoIosInformationCircleOutline color="grey" />
+              </IconButton>
+            )}
+          </Flex>
+
+          <Button
+            variant="outline"
+            borderRadius={12}
+            alignItems="center"
+            w="100%"
+            size="lg"
+            mt={4}
+          >
+            <Text color={mainBlue} fontWeight="bold">
+              이력서 보완하기
+            </Text>
+          </Button>
+        </Box>
+
+        <Box bg={containerGrey} borderRadius={20} p={4} mt={4}>
+          <Flex alignItems="center">
+            <Text fontSize={14} fontWeight="bold">
+              합격보상
+            </Text>
+            <Box ml={4}>
+              <Text fontSize={14}>지원자, 추천인</Text>
+              <Text fontSize={14}>각 현금 50만원 + 50만P</Text>
+            </Box>
+            <Spacer />
+
+            {RewardInfoButtonWithDialog(
+              <IconButton
+                aria-label="ArrowRight"
+                rounded="full"
+                size="md"
+                variant="ghost"
+                zIndex={5}
+              >
+                <IoIosInformationCircleOutline color="grey" />
+              </IconButton>
+            )}
+          </Flex>
+        </Box>
+      </Box>
+    );
+  };
+
   const InnerPage = () => {
     return (
       <Stack direction="column">
@@ -380,18 +447,30 @@ export default function PostPage() {
           <Spacer />
 
           <Flex gap={2} alignItems="center">
-            <CiBookmark
-              size="25px"
-              color={isMarked ? mainBlue : mainGrey}
-              className="hover:bg-gray-100"
-              onClick={() => {
-                let value = !isMarked;
-                setIsMarked(value);
-                if (value) {
+            {!isMarked && (
+              <CiBookmark
+                size="25px"
+                color="grey"
+                className="hover:bg-gray-100"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
                   successToast("북마크에 저장되었습니다.");
-                }
-              }}
-            />
+                }}
+              />
+            )}
+
+            {isMarked && (
+              <IoBookmark
+                size="25px"
+                color={mainBlue}
+                className="hover:bg-gray-100"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
             <BsBuildingAdd
               size="22px"
               color={isCompany ? mainBlue : mainGrey}
@@ -429,6 +508,9 @@ export default function PostPage() {
           </Text>
         </Flex>
         <Separator />
+
+        {/* 크기가 작을 때 처리하는 UI */}
+        <MiddleViewWhenSM />
 
         {/* 회사에서 서술한 내용 */}
         <Text fontWeight="bold" fontSize={22} mt={8}>
@@ -725,50 +807,60 @@ export default function PostPage() {
     );
   };
 
-  return (
-    <Stack direction="column" pl="50px" pr="50px" pt="30px">
-      {/* 회사 사진첩  */}
-      <Flex gap="8px" alignItems="center">
-        <IconButton
-          aria-label="ArrowLeft"
-          rounded="full"
-          size="md"
-          variant="surface"
-          colorPalette="white"
-          zIndex={5}
-          className="relative left-[12px]"
-        >
-          <FaArrowLeft />
-        </IconButton>
+  const BottomViewWhenSM = () => {
+    return (
+      <Box className="w-[100%] bottom-0 fixed block md:hidden">
+        {/* 흰색 그라데이션 부분 */}
+        <Box className="h-[30px] bg-linear-to-b from-opacity-100 to-white" />
 
-        <Image
-          className="rounded-l-2xl object-cover w-[50%] max-h-[350px] relative left-[-48px]"
-          src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
-        />
-        <Image
-          className="rounded-r-2xl object-cover w-[50%] max-h-[350px] relative left-[-48px]"
-          src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
-        />
+        {/* 북마크, 지원하기 버튼 Row */}
+        <Flex className="bg-white" pb={4} pl={4} pr={4}>
+          <IconButton size="lg" colorPalette="blue" borderRadius={8} mr={2}>
+            {!isMarked && (
+              <CiBookmark
+                size="22px"
+                color="white"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                  successToast("북마크에 저장되었습니다.");
+                }}
+              />
+            )}
 
-        <IconButton
-          aria-label="ArrowRight"
-          rounded="full"
-          size="md"
-          variant="surface"
-          colorPalette="white"
-          zIndex={5}
-          className="relative left-[-108px]"
-        >
-          <FaArrowRight />
-        </IconButton>
-      </Flex>
+            {isMarked && (
+              <IoBookmark
+                size="22px"
+                color="white"
+                onClick={() => {
+                  let value = !isMarked;
+                  setIsMarked(value);
+                }}
+              />
+            )}
+          </IconButton>
+          <Button
+            flex={1}
+            colorPalette="blue"
+            borderRadius={8}
+            fontSize={16}
+            size="lg"
+          >
+            지원하기
+          </Button>
+        </Flex>
+      </Box>
+    );
+  };
 
+  const MiddleViews = () => {
+    return (
       <Flex gapX={8} alignItems="flex-start">
         <Box flex={6}>
           {/* 내부 페이지(채용 공고) */}
           <InnerPage />
         </Box>
-        <Box flex={3} className="sticky top-[40px]">
+        <Box flex={3} className="sticky top-[40px] hidden md:block">
           <Button
             colorPalette="blue"
             w="100%"
@@ -781,7 +873,7 @@ export default function PostPage() {
           </Button>
 
           <Box bg={containerGrey} borderRadius={20} p={4} mt={4}>
-            <Flex>
+            <Flex alignItems="center">
               <Image src="/document.png" h={10} />
 
               <Text fontSize={16} fontWeight="bold" ml={1}>
@@ -843,20 +935,67 @@ export default function PostPage() {
           </Box>
         </Box>
       </Flex>
+    );
+  };
 
-      <Text fontWeight="bold" fontSize={20} mt="60px">
-        땡땡이님을 위한 추천 포지션
-      </Text>
+  return (
+    <>
+      <Stack direction="column" pl="50px" pr="50px" pt="30px">
+        {/* 회사 사진첩  */}
+        <Stack direction="row" alignItems="center">
+          <IconButton
+            aria-label="ArrowLeft"
+            rounded="full"
+            size="md"
+            variant="surface"
+            colorPalette="white"
+            zIndex={5}
+            className="relative left-[12px]"
+          >
+            <FaArrowLeft />
+          </IconButton>
 
-      {/* 채용공고 리스트업 */}
-      <SimpleGrid columns={{ base: 2, md: 3, lg: 4, xl: 5 }} gapY={5}>
-        {dataList.map((v, index) => {
-          return PositionDiv(index, false);
-        })}
-      </SimpleGrid>
+          <Image
+            className="rounded-l-2xl object-cover min-w-[50%] max-h-[350px] relative left-[-48px]"
+            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
+          />
+          <Image
+            className="rounded-r-2xl object-cover min-w-[50%] max-h-[350px] relative left-[-48px]"
+            src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F15185%2F95pf43uoskc9pdir__1080_790.jpg&w=700&q=100"
+          />
 
-      <Box mt={400}></Box>
-      <Footer />
-    </Stack>
+          <IconButton
+            aria-label="ArrowRight"
+            rounded="full"
+            size="md"
+            variant="surface"
+            colorPalette="white"
+            zIndex={5}
+            className="relative left-[-108px]"
+          >
+            <FaArrowRight />
+          </IconButton>
+        </Stack>
+
+        <MiddleViews />
+
+        <Text fontWeight="bold" fontSize={20} mt="60px">
+          땡땡이님을 위한 추천 포지션
+        </Text>
+
+        {/* 채용공고 리스트업 */}
+        <SimpleGrid columns={{ base: 2, md: 3, lg: 4, xl: 5 }} gapY={5}>
+          {dataList.map((v, index) => {
+            return PositionDiv(index, false);
+          })}
+        </SimpleGrid>
+
+        <Box mt={400}></Box>
+        <Footer />
+      </Stack>
+
+      {/* 사이즈가 작을 때 보이는 하단 지원하기 버튼 */}
+      <BottomViewWhenSM />
+    </>
   );
 }
