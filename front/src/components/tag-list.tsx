@@ -10,7 +10,6 @@ export const RenderTagList = (tagList: any, count: number) => {
   let gridList = [];
   if (remain > 0) ++gridCount;
 
-  console.log(gridCount, remain);
   for (let gridIdx = 0; gridIdx < gridCount; gridIdx++) {
     // 내부 목록을 생성한다.
     let children = [];

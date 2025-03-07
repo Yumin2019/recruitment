@@ -71,4 +71,22 @@ const initMap = (lat: number, lng: number) => {
   });
 };
 
-export { successToast, errorToast, infoToast, warningToast, initMap };
+const getRandomInt = (min: number, max: number) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+};
+
+const toDollarString = (v: any) => {
+  return v.toLocaleString();
+};
+
+export {
+  successToast,
+  errorToast,
+  infoToast,
+  warningToast,
+  initMap,
+  getRandomInt,
+  toDollarString,
+};
