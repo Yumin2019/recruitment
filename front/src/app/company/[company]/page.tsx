@@ -2,7 +2,7 @@
 
 import { Footer } from "@/components/footer";
 import { NaverMap } from "@/components/naver-map";
-import { getRandomInt, initMap, toDollarString } from "@/util";
+import { getRandomInt, initMap, successToast, toDollarString } from "@/util";
 import { useEffect, useState } from "react";
 import {
   Badge,
@@ -15,7 +15,9 @@ import {
   Spacer,
   Stack,
   Table,
+  Tabs,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import { RenderTagList } from "@/components/tag-list";
 import { FaCheckCircle } from "react-icons/fa";
@@ -32,9 +34,20 @@ import { CiBookmark } from "react-icons/ci";
 import { IoBookmark } from "react-icons/io5";
 import { IoMdInformationCircle } from "react-icons/io";
 import { Chart as ChartJS, registerables } from "chart.js";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { Bar, Chart, Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-ChartJS.register(...registerables, ChartDataLabels);
+import annotationPlugin from "chartjs-plugin-annotation";
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { HiMiniCheckBadge } from "react-icons/hi2";
+ChartJS.register(...registerables, ChartDataLabels, annotationPlugin);
 
 const tableData = [
   { name: "표준산업분류", value: "게임 소프트웨어 개발 및 공급업" },
@@ -79,6 +92,182 @@ const postionDataList: any[] = [
     isRecommended: false,
   },
 ];
+
+const LineGraph = () => {
+  // 10달에 해당하는 라벨을 생성한다. format: 2025-01
+  const labels: string[] = [];
+  let startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 11);
+
+  for (let n = 0; n < 10; n++) {
+    let year = startDate.toLocaleString("en-US", { year: "numeric" });
+    let month = startDate.toLocaleString("en-US", { month: "2-digit" });
+    labels.push(`${year}.${month}`);
+    startDate.setMonth(startDate.getMonth() + 1);
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      datalabels: {
+        display: false,
+      },
+      // https://www.chartjs.org/docs/latest/configuration/tooltip.html#label-callback
+      tooltip: {
+        enabled: true,
+        intersect: false,
+        backgroundColor: "black",
+        titleColor: "white",
+        titleFont: { size: 12, weight: "bold" },
+        bodyColor: "white",
+        bodyFont: { size: 12 },
+        caretPadding: 10,
+        caretSize: 0,
+        displayColors: false,
+        xAlign: "center",
+        yAlign: "top",
+        callbacks: {
+          title: (context: any) => {
+            return `${context[0].formattedValue}만원`;
+          },
+          label: (context: any) => {
+            return context.label;
+          },
+        },
+      },
+      legend: {
+        display: false,
+        labels: {
+          usePointStyle: true,
+        },
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        border: { display: false },
+        grid: {
+          display: false,
+        },
+        ticks: {
+          callback: function (value: any, index: any, ticks: any) {
+            if (index % 3 == 0) {
+              return `${labels[index]}`;
+            }
+            return "";
+          },
+        },
+      },
+      y: {
+        display: false,
+        min: 0,
+        max: 1000,
+      },
+    },
+  };
+
+  function getGradient(ctx: any, chartArea: any) {
+    let gradient = ctx.createLinearGradient(
+      0,
+      chartArea.bottom,
+      0,
+      chartArea.top
+    );
+    gradient.addColorStop(0.01, "rgba(92, 132, 255, 0.01)");
+    gradient.addColorStop(1, "rgba(255, 255, 255, 1)");
+
+    return gradient;
+  }
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: labels.map(() => getRandomInt(200, 350)),
+        backgroundColor: function (context: any) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          // This case happens on initial chart load
+          if (!chartArea) return;
+          return getGradient(ctx, chartArea);
+        },
+        fill: true,
+        borderColor: "#5c84ff",
+        pointRadius: 3.5,
+        pointBorderColor: "#5c84ff",
+        pointBackgroundColor: "#5c84ff",
+        pointHoverBackgroundColor: "#5c84ff",
+        pointHoverBorderColor: "#5c84ff",
+      },
+    ],
+  };
+
+  return <Line data={data} options={options as any} />;
+};
+
+const ColumnGraph = (min: number, max: number, isSalary: boolean) => {
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      datalabels: {
+        color: "#000000",
+        anchor: "end",
+        align: "top",
+        offset: 0,
+        formatter: (value: any) => {
+          return isSalary ? toDollarString(value) : `${value}년`;
+        },
+        font: {
+          weight: "bold",
+          size: 13,
+        },
+      },
+      tooltip: {
+        enabled: false,
+      },
+      legend: {
+        display: false,
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        border: { display: false },
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        display: false,
+        min: 0,
+        max: isSalary ? 10000 : 15,
+      },
+    },
+  };
+
+  const labels = ["디벨로퍼랩", "업계 평균", "전체 평균"];
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: labels.map(() => getRandomInt(min, max)),
+        backgroundColor: ["#5c84ff", graphGrey, graphGrey],
+        borderRadius: 3,
+        barPercentage: isSalary ? 0.44 : 0.15,
+        categoryPercentage: 1.0,
+      },
+    ],
+  };
+
+  return <Bar data={data} options={options as any} />;
+};
 
 export default function CompanyPage() {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
@@ -157,8 +346,10 @@ export default function CompanyPage() {
   };
 
   const MiddleViews = () => {
+    const [isFollowing, setIsFollowing] = useState(false);
+
     return (
-      <Flex gapX={8} alignItems="flex-start">
+      <Flex gapX={8} alignItems="flex-start" mt="60px">
         <Box flex={6}>
           <InnerPage />
         </Box>
@@ -172,20 +363,34 @@ export default function CompanyPage() {
             </Flex>
 
             <Text fontSize={13} fontWeight="light">
-              관심 기업으로 등록하고 채용 알림도 받아 보세요.
+              {isFollowing
+                ? "새로운 포지션이 등록되면 알림을 보내드려요."
+                : "관심 기업으로 등록하고 채용 알림도 받아 보세요."}
             </Text>
           </Box>
 
-          <Button
-            colorPalette="blue"
+          <Box
             w="100%"
-            borderRadius={8}
             mt="15px"
+            textAlign="center"
+            p={2}
+            borderRadius={8}
             fontSize={16}
-            size="lg"
+            backgroundColor={isFollowing ? "#f4f4f5" : mainBlue}
+            _hover={{
+              backgroundColor: `${isFollowing ? "#ebedf3" : "#215ad9"}`,
+            }}
+            color={isFollowing ? "black" : "white"}
+            onClick={() => {
+              let value = !isFollowing;
+              setIsFollowing(value);
+              if (value) {
+                successToast("팔로우 완료. 채용알림을 받게 됩니다.");
+              }
+            }}
           >
-            팔로우하고 채용알림 받기
-          </Button>
+            {isFollowing ? "팔로잉" : "팔로우하고 채용알림 받기"}
+          </Box>
         </Box>
       </Flex>
     );
@@ -198,18 +403,23 @@ export default function CompanyPage() {
           {isFresh ? "신입 예상연봉" : "경력 예상연봉"}
         </Text>
 
-        <Box h="150px"></Box>
+        <Box h="150px" mb={6} ml={2} mr={2} mt={6}>
+          {FloatingColumnGraph(isFresh)}
+        </Box>
 
-        <Center>
-          <Button
-            size="xs"
-            variant="outline"
-            borderRadius={5}
-            fontWeight="bold"
-          >
-            자세히 보기
-          </Button>
-        </Center>
+        {SalaryPlusButtonWithDialog(
+          <Center>
+            <Button
+              size="xs"
+              variant="outline"
+              borderRadius={5}
+              fontWeight="bold"
+            >
+              자세히 보기
+            </Button>
+          </Center>,
+          isFresh
+        )}
       </Box>
     );
   };
@@ -247,7 +457,7 @@ export default function CompanyPage() {
         <Separator size="xs" />
 
         <Box h="150px" mb={4} ml={8} mr={8}>
-          <ColumnGraph />
+          {ColumnGraph(2000, 4000, true)}
         </Box>
 
         <Separator size="xs" />
@@ -314,7 +524,26 @@ export default function CompanyPage() {
         </Flex>
 
         <Separator size="xs" />
-        <Box h="150px"></Box>
+        <Box h="240px" mb="55px" ml={8} mr={8}>
+          <Flex mt={4} mb={3}>
+            <Flex fontSize={12} alignItems="center">
+              <Box w="9px" h="9px" bg="#3385ff" borderRadius={2} mr={1} />총
+              인원
+            </Flex>
+
+            <Spacer />
+            <Flex fontSize={12} alignItems="center" mr={3}>
+              <Box w="9px" h="9px" bg="#69a5ff" borderRadius={2} mr={1} />
+              입사
+            </Flex>
+            <Flex fontSize={12} alignItems="center">
+              <Box w="9px" h="9px" bg="#c9defe" borderRadius={2} mr={1} />
+              퇴사
+            </Flex>
+          </Flex>
+
+          <LineColumnGraph />
+        </Box>
         <Separator size="xs" />
 
         <Flex mt={4} alignItems="center">
@@ -358,35 +587,175 @@ export default function CompanyPage() {
     );
   };
 
-  const LineGraph = () => {
-    // 10달에 해당하는 라벨을 생성한다. format: 2025-01
-    const labels: string[] = [];
-    let startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 11);
+  const SalaryPlusButtonWithDialog = (children: any, isFresh: boolean) => {
+    const salaryList = [
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+      { year: 2020, salary: 5000 },
+    ];
 
-    for (let n = 0; n < 10; n++) {
-      let year = startDate.toLocaleString("en-US", { year: "numeric" });
-      let month = startDate.toLocaleString("en-US", { month: "2-digit" });
-      labels.push(`${year}.${month}`);
-      startDate.setMonth(startDate.getMonth() + 1);
+    return (
+      <DialogRoot
+        placement="center"
+        motionPreset="slide-in-bottom"
+        onOpenChange={(v) => {}}
+        size="xs"
+      >
+        <DialogTrigger asChild>{children}</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle textAlign="center">
+              {isFresh ? "신입 예상연봉" : "경력 예상연봉"}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <Tabs.Root
+              defaultValue="classA"
+              variant="enclosed"
+              fitted
+              size="sm"
+            >
+              <Tabs.List>
+                <Tabs.Trigger value="classA">
+                  {isFresh ? "고졸" : "2~4년"}
+                </Tabs.Trigger>
+                <Tabs.Trigger value="classB">
+                  {isFresh ? "초대졸" : "5~7년"}
+                </Tabs.Trigger>
+                <Tabs.Trigger value="classC">
+                  {isFresh ? "대졸" : "8~10년"}
+                </Tabs.Trigger>
+                <Tabs.Trigger value="classD">
+                  {isFresh ? "대학원졸" : "10년 초과"}
+                </Tabs.Trigger>
+              </Tabs.List>
+            </Tabs.Root>
+
+            <Flex border={attrBorderGrey2} borderRadius={8} p={4} mt={4} mb={4}>
+              <Box textAlign="center" flex={1}>
+                <Text fontSize={12} color={textGrey}>
+                  예상연봉
+                </Text>
+                <Text fontSize={16} fontWeight="bold" color="#848487">
+                  정보없음
+                </Text>
+              </Box>
+              <Box borderLeft={attrBorderGrey2} />
+              <Box textAlign="center" flex={1}>
+                <Text fontSize={12} color={textGrey}>
+                  머신러닝 추정
+                </Text>
+                <Text fontSize={16} fontWeight="bold" color="#848487">
+                  정보없음
+                </Text>
+              </Box>
+            </Flex>
+
+            <Text fontSize={13} mb={2}>
+              제보 내역
+            </Text>
+            <Table.ScrollArea rounded="md" height="270px">
+              <Table.Root size="sm" stickyHeader>
+                <Table.Header>
+                  <Table.Row bg="#f4f4f4">
+                    <Table.ColumnHeader color="grey" fontSize={13}>
+                      기준연도
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader color="grey" fontSize={13}>
+                      제보연봉
+                    </Table.ColumnHeader>
+                  </Table.Row>
+                </Table.Header>
+
+                <Table.Body>
+                  {salaryList.map((v, index) => (
+                    <Table.Row key={index}>
+                      <Table.Cell fontSize={13}>{v.year}</Table.Cell>
+                      <Table.Cell fontSize={13}>
+                        {toDollarString(v.salary)}만원
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Table.ScrollArea>
+
+            <Button
+              variant="outline"
+              size="sm"
+              color={mainBlue}
+              w="100%"
+              mt={2}
+            >
+              연봉 제보하기
+            </Button>
+          </DialogBody>
+          <DialogCloseTrigger />
+        </DialogContent>
+      </DialogRoot>
+    );
+  };
+
+  const FloatingColumnGraph = (isFresh: boolean) => {
+    function middleValue(ctx: any, index: number) {
+      let dataset = ctx.chart.data.datasets[0];
+      let avg = (dataset.data[index][0] + dataset.data[index][1]) / 2;
+      return avg.toFixed(0);
     }
+
+    function getAnnotation(index: number) {
+      return {
+        borderColor: "#0066ff",
+        borderWidth: 3,
+        xMax: index + 0.25,
+        xMin: index - 0.25,
+        yMax: (ctx: any) => middleValue(ctx, index),
+        yMin: (ctx: any) => middleValue(ctx, index),
+      };
+    }
+
+    let ann1 = getAnnotation(0);
+    let ann2 = getAnnotation(1);
+    let ann3 = getAnnotation(2);
+    let ann4 = getAnnotation(3);
 
     const options = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        datalabels: {
-          display: false,
+        annotation: {
+          annotations: {
+            ann1,
+            ann2,
+            ann3,
+            ann4,
+          },
         },
-        // https://www.chartjs.org/docs/latest/configuration/tooltip.html#label-callback
+        datalabels: {
+          anchor: "end",
+          align: "top",
+          offset: 0,
+          formatter: (value: any) => {
+            let min = (value[0] + value[1]) / 2;
+            return `± ${toDollarString(min.toFixed(0))}`;
+          },
+          font: {
+            size: 12,
+            weight: "bold",
+          },
+          color: "#0066ff",
+        },
         tooltip: {
           enabled: true,
           intersect: false,
           backgroundColor: "black",
           titleColor: "white",
-          titleFont: { size: 12, weight: "bold" },
-          bodyColor: "white",
-          bodyFont: { size: 12 },
+          titleFont: { size: 12, weight: "normal" },
           caretPadding: 10,
           caretSize: 0,
           displayColors: false,
@@ -394,18 +763,22 @@ export default function CompanyPage() {
           yAlign: "top",
           callbacks: {
             title: (context: any) => {
-              return `${context[0].formattedValue}만원`;
+              let min = context[0].raw[0];
+              let max = context[0].raw[1];
+              let avg = (min + max) / 2;
+              return `최대연봉 ${toDollarString(
+                max
+              )}만원\n최소연봉 ${toDollarString(
+                min
+              )}만원\n평균연봉 ${toDollarString(avg)}만원`;
             },
             label: (context: any) => {
-              return context.label;
+              return "";
             },
           },
         },
         legend: {
           display: false,
-          labels: {
-            usePointStyle: true,
-          },
         },
         title: {
           display: false,
@@ -418,82 +791,103 @@ export default function CompanyPage() {
             display: false,
           },
           ticks: {
-            callback: function (value: any, index: any, ticks: any) {
-              if (index % 3 == 0) {
-                return `${labels[index]}`;
-              }
-              return "";
+            padding: -2,
+            maxRotation: 0,
+            minRotation: 0,
+            font: {
+              size: 11,
             },
           },
         },
         y: {
-          display: false,
-          min: 0,
-          max: 1000,
+          position: "left",
+          grid: {
+            color: "#f4f4f5",
+            display: true,
+          },
+          border: {
+            display: false,
+          },
+          ticks: {
+            font: {
+              size: 11,
+            },
+            color: "grey",
+            callback: function (value: any, index: any, ticks: any) {
+              let data = value / 1000;
+              if (data < 10) return `${data}천`;
+              return `1억`;
+            },
+          },
+          min: 2000,
+          max: 10000,
         },
       },
     };
 
-    function getGradient(ctx: any, chartArea: any) {
-      let gradient = ctx.createLinearGradient(
-        0,
-        chartArea.bottom,
-        0,
-        chartArea.top
-      );
-      gradient.addColorStop(0.01, "rgba(92, 132, 255, 0.01)");
-      gradient.addColorStop(1, "rgba(255, 255, 255, 1)");
-
-      return gradient;
-    }
+    const labels = isFresh
+      ? ["고졸", "초대졸", "대졸", "대학원졸"]
+      : ["2-4년", "5-7년", "8-10년", "10년 초과"];
 
     const data = {
       labels,
       datasets: [
         {
-          data: labels.map(() => getRandomInt(200, 350)),
-          backgroundColor: function (context: any) {
-            const chart = context.chart;
-            const { ctx, chartArea } = chart;
-
-            // This case happens on initial chart load
-            if (!chartArea) return;
-            return getGradient(ctx, chartArea);
-          },
-          fill: true,
-          borderColor: "#5c84ff",
-          pointRadius: 3.5,
-          pointBorderColor: "#5c84ff",
-          pointBackgroundColor: "#5c84ff",
-          pointHoverBackgroundColor: "#5c84ff",
-          pointHoverBorderColor: "#5c84ff",
+          data: labels.map(() => [
+            getRandomInt(2000, 4500),
+            getRandomInt(5000, 9000),
+          ]),
+          backgroundColor: graphGrey,
+          borderRadius: 3,
+          barPercentage: 0.5,
+          categoryPercentage: 1.0,
         },
       ],
     };
 
-    return <Line data={data} options={options as any} />;
+    return <Bar data={data} options={options as any} />;
   };
 
-  const ColumnGraph = () => {
+  const LineColumnGraph = () => {
+    // 10달에 해당하는 라벨을 생성한다. format: 2025-01
+    const dateLabels: string[] = [];
+    let startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 11);
+
+    for (let n = 0; n < 10; n++) {
+      let year = startDate.toLocaleString("en-US", { year: "numeric" });
+      let month = startDate.toLocaleString("en-US", { month: "2-digit" });
+      dateLabels.push(`${year}.${month}`);
+      startDate.setMonth(startDate.getMonth() + 1);
+    }
+
     const options = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         datalabels: {
-          color: "#000000",
-          anchor: "end",
-          align: "top",
-          offset: 0,
-          formatter: (value: any) => {
-            return toDollarString(value);
-          },
-          font: {
-            weight: "bold",
-            size: 13,
-          },
+          display: false,
         },
         tooltip: {
-          enabled: false,
+          enabled: true,
+          intersect: false,
+          mode: "index",
+          backgroundColor: "black",
+          titleColor: "white",
+          titleFont: { size: 12, weight: "normal" },
+          caretPadding: 10,
+          caretSize: 0,
+          displayColors: false,
+          xAlign: "center",
+          yAlign: "top",
+          callbacks: {
+            title: (context: any) => {
+              return `총 인원 ${context[0].formattedValue}명\n입사 ${context[1].formattedValue}명\n퇴사 ${context[2].formattedValue}명\n${context[0].label}`;
+            },
+            label: (context: any) => {
+              return "";
+            },
+          },
         },
         legend: {
           display: false,
@@ -508,30 +902,99 @@ export default function CompanyPage() {
           grid: {
             display: false,
           },
+          ticks: {
+            padding: -3,
+            maxRotation: 0,
+            minRotation: 0,
+            callback: function (value: any, index: any, ticks: any) {
+              if (index % 3 == 0) {
+                return `${dateLabels[index]}`;
+              }
+              return "";
+            },
+          },
         },
         y: {
-          display: false,
+          position: "left",
+          grid: {
+            color: "#f4f4f5",
+            display: true,
+          },
+          border: {
+            display: false,
+          },
+          ticks: {
+            color: "grey",
+          },
           min: 0,
-          max: 10000,
+          max: 40,
+        },
+        // 그래프 우측 Y Axis, https://www.youtube.com/watch?v=8iydwK3-3zA 참고
+        population: {
+          position: "right",
+          grid: {
+            color: "#f4f4f5",
+            display: true,
+          },
+          border: {
+            display: false,
+          },
+          ticks: {
+            color: "grey",
+          },
+          min: 0,
+          max: 40,
         },
       },
     };
 
-    const labels = ["디벨로퍼랩", "업계 평균", "전체 평균"];
     const data = {
-      labels,
+      labels: dateLabels,
       datasets: [
         {
-          data: labels.map(() => getRandomInt(2000, 4000)),
-          backgroundColor: ["#5c84ff", graphGrey, graphGrey],
-          borderRadius: 5,
-          barPercentage: 0.44,
-          categoryPercentage: 1.0,
+          type: "line",
+          data: dateLabels.map(() => getRandomInt(20, 25)),
+          backgroundColor: "#3385ff",
+          borderColor: "#3385ff",
+          pointRadius: 3.5,
+          pointBorderColor: "#3385ff",
+          pointBackgroundColor: "#3385ff",
+          pointHoverBackgroundColor: "#3385ff",
+          pointHoverBorderColor: "#3385ff",
+          yAxisID: "y",
+        },
+        {
+          type: "bar",
+          data: dateLabels.map(() => getRandomInt(0, 10)),
+          backgroundColor: "#69a5ff",
+          borderColor: "#69a5ff",
+          pointRadius: 3.5,
+          pointBorderColor: "#69a5ff",
+          pointBackgroundColor: "#69a5ff",
+          pointHoverBackgroundColor: "#69a5ff",
+          pointHoverBorderColor: "#69a5ff",
+          borderRadius: 2,
+          barPercentage: 0.68,
+          yAxisID: "population",
+        },
+        {
+          type: "bar",
+          data: dateLabels.map(() => getRandomInt(0, 10)),
+          backgroundColor: "#c9defe",
+          borderColor: "#c9defe",
+          pointRadius: 3.5,
+          pointBorderColor: "#c9defe",
+          pointBackgroundColor: "#c9defe",
+          pointHoverBackgroundColor: "#c9defe",
+          pointHoverBorderColor: "#c9defe",
+          borderRadius: 2,
+          barPercentage: 0.68,
+          yAxisID: "population",
         },
       ],
     };
 
-    return <Bar data={data} options={options as any} />;
+    return <Chart data={data as any} options={options as any} type={"line"} />;
   };
 
   const WorkingYearGraph = () => {
@@ -558,7 +1021,9 @@ export default function CompanyPage() {
         </Flex>
 
         <Separator size="xs" />
-        <Box h="150px">그래프 영역</Box>
+        <Box h="150px" mb={2} ml={8} mr={8}>
+          {ColumnGraph(0, 10, false)}
+        </Box>
       </Box>
     );
   };
@@ -566,11 +1031,14 @@ export default function CompanyPage() {
   const InnerPage = () => {
     return (
       <>
-        <Flex alignItems="center" gapX={1}>
+        <Flex alignItems="center" gapX="4px">
           <Text fontSize={22} fontWeight="bold">
             디벨로퍼랩
           </Text>
-          <FaCheckCircle size={18} color={mainBlue} />
+
+          <Box mb="1px">
+            <HiMiniCheckBadge size={24} color={mainBlue} />
+          </Box>
         </Flex>
         <Flex mt="2px">
           <Text fontSize={14} color={textGrey}>
@@ -821,7 +1289,28 @@ export default function CompanyPage() {
 
   return (
     <>
-      <Stack direction="column" pl="50px" pr="50px" pt="30px">
+      <Stack
+        direction="column"
+        pl="50px"
+        pr="50px"
+        pt="30px"
+        position="relative"
+      >
+        <Image
+          borderRadius={20}
+          h="330px"
+          src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fcompany%2F33980%2F2ggy2aocclkjyy3y__1080_790.jpg&w=700&q=100"
+        />
+        <Image
+          position="absolute"
+          top="313px"
+          left="70px"
+          src="/developer_logo.png"
+          borderRadius="25%"
+          w="94px"
+          h="94px"
+          border={attrBorderGrey2}
+        />
         {MiddleViews()}
         <Box h={350}></Box>
         <Footer />
