@@ -18,9 +18,9 @@ import {
   Tabs,
   Text,
   Image,
+  Dialog,
 } from "@chakra-ui/react";
 import { RenderTagList } from "@/components/tag-list";
-import { FaCheckCircle } from "react-icons/fa";
 import {
   attrBorderGrey2,
   borderGrey,
@@ -47,6 +47,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { HiMiniCheckBadge } from "react-icons/hi2";
+import { useRouter } from "next/navigation";
 ChartJS.register(...registerables, ChartDataLabels, annotationPlugin);
 
 const tableData = [
@@ -272,6 +273,8 @@ const ColumnGraph = (min: number, max: number, isSalary: boolean) => {
 export default function CompanyPage() {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isPosExpanded, setIsPosExpanded] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     initMap(37.3595704, 127.105399);
@@ -346,14 +349,12 @@ export default function CompanyPage() {
   };
 
   const MiddleViews = () => {
-    const [isFollowing, setIsFollowing] = useState(false);
-
     return (
       <Flex gapX={8} alignItems="flex-start" mt="60px">
         <Box flex={6}>
           <InnerPage />
         </Box>
-        <Box flex={3} className="sticky top-[80px] hidden md:block">
+        <Box flex={3} className="sticky top-[80px] hidden lg:block">
           <Box border={attrBorderGrey2} borderRadius={10} p={4}>
             <Flex>
               <Text fontSize={14}>기업 팔로우하면 100포인트 지급!</Text>
@@ -369,28 +370,7 @@ export default function CompanyPage() {
             </Text>
           </Box>
 
-          <Box
-            w="100%"
-            mt="15px"
-            textAlign="center"
-            p={2}
-            borderRadius={8}
-            fontSize={16}
-            backgroundColor={isFollowing ? "#f4f4f5" : mainBlue}
-            _hover={{
-              backgroundColor: `${isFollowing ? "#ebedf3" : "#215ad9"}`,
-            }}
-            color={isFollowing ? "black" : "white"}
-            onClick={() => {
-              let value = !isFollowing;
-              setIsFollowing(value);
-              if (value) {
-                successToast("팔로우 완료. 채용알림을 받게 됩니다.");
-              }
-            }}
-          >
-            {isFollowing ? "팔로잉" : "팔로우하고 채용알림 받기"}
-          </Box>
+          <FollowingButton />
         </Box>
       </Flex>
     );
@@ -434,15 +414,16 @@ export default function CompanyPage() {
             {isThisYear ? "올해 입사자 평균연봉" : "평균연봉"}
           </Text>
 
-          {isThisYear && (
-            <IoMdInformationCircle
-              color={borderGrey}
-              size={16}
-              onClick={() => {
-                // 데이터 소스 페이지로 이동
-              }}
-            />
-          )}
+          {isThisYear &&
+            InfoDialog(
+              <IoMdInformationCircle color={borderGrey} size={16} />,
+              <Text fontSize={16}>
+                당해년도에 입사한 신입/경력직을 모두 포함한 평균연봉입니다.
+                국민연금은 추정값을 제공하며, 금감원에 대해서는 해당 정보를
+                제공하지 않습니다.
+              </Text>,
+              "올해 입사자 평균연봉"
+            )}
         </Flex>
 
         <Flex mt="2px" mb={3}>
@@ -694,6 +675,42 @@ export default function CompanyPage() {
             >
               연봉 제보하기
             </Button>
+          </DialogBody>
+          <DialogCloseTrigger />
+        </DialogContent>
+      </DialogRoot>
+    );
+  };
+
+  const InfoDialog = (button: any, children: any, title: string) => {
+    return (
+      <DialogRoot
+        placement="center"
+        motionPreset="slide-in-bottom"
+        onOpenChange={(v) => {}}
+        size="xs"
+      >
+        <DialogTrigger asChild>{button}</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle textAlign="left" fontSize={20}>
+              {title}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            {children}
+
+            <Dialog.ActionTrigger asChild>
+              <Button
+                variant="outline"
+                size="lg"
+                w="100%"
+                borderRadius={10}
+                mt="30px"
+              >
+                확인
+              </Button>
+            </Dialog.ActionTrigger>
           </DialogBody>
           <DialogCloseTrigger />
         </DialogContent>
@@ -1005,13 +1022,18 @@ export default function CompanyPage() {
             평균 근속연수
           </Text>
 
-          <IoMdInformationCircle
-            color={borderGrey}
-            size={16}
-            onClick={() => {
-              // 데이터 소스 페이지로 이동
-            }}
-          />
+          {InfoDialog(
+            <IoMdInformationCircle color={borderGrey} size={16} />,
+            <Text fontSize={16} whiteSpace="pre-line">
+              {`업계평균: 근속 연수 데이터가 있는 동일 업종 기업의 평균입니다.
+
+                전체평균: 근속 연수 데이터가 있는 전체 기업의 평균입니다.
+
+                *업종에 따라 업계 평균이 보이지 않을 수 있습니다.
+                *금감원의 2021년도 데이터를 기준으로 합니다.`}
+            </Text>,
+            "평균 근속연수"
+          )}
         </Flex>
 
         <Flex mt="2px" mb={3}>
@@ -1059,19 +1081,19 @@ export default function CompanyPage() {
             color={textGrey}
             mt={4}
             lineClamp={isDescExpanded ? 1000 : 2}
+            whiteSpace="pre-line"
           >
-            우리는 ‘버추얼 엔터테인먼트’라는 대해에서 ‘기술’과 ‘사람’이라는
-            함선을 타고 신대륙을 찾는 사람입니다. 우리의 목표는 버추얼
-            엔터테인먼트 시장 내의 모든 활동을 관통하고, 관여하는 환경을
-            구축하는 것입니다. 우리는 이 목표를 달성하기 위해 현재 ‘아바킷’과
-            ‘멜로데이즈’라는 서비스를 개발 및 제공합니다. Services 1.
-            아바킷(AvaKit) 버추얼 유튜버가 고가의 모션 캡처 장비 없이 웹캠 한
-            대만으로 바로 라이브 스트리밍을 진행할 수 있는 환경을 제공하는
-            서비스입니다. 6개월이 채 되기 전에 6,000% 이상의 오가닉 유저 성장을
-            기록했습니다. 2. 멜로데이즈(MeloDaze) ‘상상이 현실로 바뀌는 경험을
-            창출한다’라는 비전 아래, 버추얼 탤런트를 육성하고 지원하는 버추얼
-            엔터테인먼트 에이전시입니다. 멜로데이즈와 함께라면, 당신의 상상은
-            현실이 됩니다.
+            {`우리는 ‘버추얼 엔터테인먼트’라는 대해에서 ‘기술’과 ‘사람’이라는 함선을 타고 신대륙을 찾는 사람입니다. 우리의 목표는 버추얼 엔터테인먼트 시장 내의 모든 활동을 관통하고, 관여하는 환경을 구축하는 것입니다. 
+            
+            우리는 이 목표를 달성하기 위해 현재 ‘아바킷’과 ‘멜로데이즈’라는 서비스를 개발 및 제공합니다. 
+
+            Services 
+            1. 아바킷(AvaKit) 버추얼 유튜버가 고가의 모션 캡처 장비 없이 웹캠 한 대만으로 바로 라이브 스트리밍을 진행할 수 있는 환경을 제공하는 서비스입니다. 6개월이 채 되기 전에 6,000% 이상의 오가닉 유저 성장을
+            기록했습니다. 
+            
+            2. 멜로데이즈(MeloDaze) ‘상상이 현실로 바뀌는 경험을 창출한다’라는 비전 아래, 버추얼 탤런트를 육성하고 지원하는 버추얼 엔터테인먼트 에이전시입니다. 
+            
+            멜로데이즈와 함께라면, 당신의 상상은 현실이 됩니다.`}
           </Text>
         </Flex>
         {/* 닫기/더보기 버튼 */}
@@ -1190,11 +1212,12 @@ export default function CompanyPage() {
           <Text fontWeight="semibold" fontSize={20} mr="2px">
             연봉
           </Text>
+
           <IoMdInformationCircle
             color={borderGrey}
             size={22}
             onClick={() => {
-              // 데이터 소스 페이지로 이동
+              router.push("/company/data-sources");
             }}
           />
         </Flex>
@@ -1216,13 +1239,15 @@ export default function CompanyPage() {
               월평균 급여
             </Text>
 
-            <IoMdInformationCircle
-              color={borderGrey}
-              size={16}
-              onClick={() => {
-                // 데이터 소스 페이지로 이동
-              }}
-            />
+            {InfoDialog(
+              <IoMdInformationCircle color={borderGrey} size={16} />,
+              <Text fontSize={16} whiteSpace="pre-line">
+                {`매년 7월은 국민연금 정산월입니다. 본 자료는 국민연금 보험료 납부액을 기반으로 산출하므로 정산 월의 전 월과 평균 급여 차이가 크게 날 수 있습니다. 
+                
+                국민연금 보험료는 기준소득월액에 따라 차등산정됩니다. 본 기업의 기준소득월액이 상한액을 초과하거나 하한액을 미달한다면 추정에 오차가 발생할 수 있습니다. (2024년 상한액 617만 원, 하한액 39만 원)`}
+              </Text>,
+              "월평균 급여"
+            )}
           </Flex>
 
           <Flex mt="2px" mb={3}>
@@ -1248,7 +1273,7 @@ export default function CompanyPage() {
             color={borderGrey}
             size={22}
             onClick={() => {
-              // 데이터 소스 페이지로 이동
+              router.push("/company/data-sources");
             }}
           />
         </Flex>
@@ -1258,8 +1283,6 @@ export default function CompanyPage() {
         <Box mt={4} />
         {/* 근속연수 그래프 */}
         {WorkingYearGraph()}
-
-        {/* 매출 그래프 */}
 
         {/* 기업 정보 */}
         <Text fontWeight="semibold" fontSize={20} mt={12} mb={4}>
@@ -1284,6 +1307,47 @@ export default function CompanyPage() {
           })}
         </Box>
       </>
+    );
+  };
+
+  const FollowingButton = () => {
+    return (
+      <Box
+        w="100%"
+        mt="15px"
+        textAlign="center"
+        p={2}
+        borderRadius={8}
+        fontSize={16}
+        backgroundColor={isFollowing ? "#f4f4f5" : mainBlue}
+        _hover={{
+          backgroundColor: `${isFollowing ? "#ebedf3" : "#215ad9"}`,
+        }}
+        color={isFollowing ? "black" : "white"}
+        onClick={() => {
+          let value = !isFollowing;
+          setIsFollowing(value);
+          if (value) {
+            successToast("팔로우 완료. 채용알림을 받게 됩니다.");
+          }
+        }}
+      >
+        {isFollowing ? "팔로잉" : "팔로우하고 채용알림 받기"}
+      </Box>
+    );
+  };
+
+  const BottomViewWhenSM = () => {
+    return (
+      <Box className="w-[100%] bottom-0 fixed block lg:hidden">
+        {/* 흰색 그라데이션 부분 */}
+        <Box className="h-[30px] bg-linear-to-b from-opacity-100 to-white" />
+
+        {/* 북마크, 지원하기 버튼 Row */}
+        <Flex className="bg-white" pb={4} pl={4} pr={4}>
+          <FollowingButton />
+        </Flex>
+      </Box>
     );
   };
 
@@ -1312,9 +1376,12 @@ export default function CompanyPage() {
           border={attrBorderGrey2}
         />
         {MiddleViews()}
-        <Box h={350}></Box>
+        <Box h={350} />
         <Footer />
       </Stack>
+
+      {/* 뷰가 작아졌을 때 처리 */}
+      <BottomViewWhenSM />
     </>
   );
 }
