@@ -33,10 +33,7 @@ import {
 import { CiBookmark } from "react-icons/ci";
 import { IoBookmark } from "react-icons/io5";
 import { IoMdInformationCircle } from "react-icons/io";
-import { Chart as ChartJS, registerables } from "chart.js";
 import { Bar, Chart, Line } from "react-chartjs-2";
-import ChartDataLabels from "chartjs-plugin-datalabels";
-import annotationPlugin from "chartjs-plugin-annotation";
 import {
   DialogBody,
   DialogCloseTrigger,
@@ -48,7 +45,6 @@ import {
 } from "@/components/ui/dialog";
 import { HiMiniCheckBadge } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
-ChartJS.register(...registerables, ChartDataLabels, annotationPlugin);
 
 const tableData = [
   { name: "표준산업분류", value: "게임 소프트웨어 개발 및 공급업" },
