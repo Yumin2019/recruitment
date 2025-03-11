@@ -81,6 +81,10 @@ const toDollarString = (v: any) => {
   return v.toLocaleString();
 };
 
+const getCountOfLines = (str: string) => {
+  return (str.match(/\n/g) || "").length + 1;
+};
+
 export {
   successToast,
   errorToast,
@@ -89,4 +93,5 @@ export {
   initMap,
   getRandomInt,
   toDollarString,
+  getCountOfLines,
 };

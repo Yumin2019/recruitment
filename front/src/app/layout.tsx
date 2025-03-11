@@ -383,7 +383,7 @@ export default function RootLayout({
               top={0}
               zIndex={1023}
               onMouseEnter={() => {
-                setIsMenuHoverState(false);
+                setIsMenuHoverState(null);
               }}
             />
           )}
