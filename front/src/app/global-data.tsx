@@ -48,6 +48,9 @@ const recruitmentMenuList: any = {
       "RPA 엔지니어",
       "테크니컬 라이터",
     ],
+    salaryList: [
+      3586, 3736, 3974, 4295, 4600, 4852, 5250, 5455, 5791, 6215, 7013,
+    ],
   },
   gamedev: {
     value: "gamedev",
@@ -62,6 +65,9 @@ const recruitmentMenuList: any = {
       "유니티 개발자",
       "언리얼 개발자",
       "게임운영자(GM)",
+    ],
+    salaryList: [
+      3162, 3267, 3595, 3785, 3933, 4081, 4229, 4676, 5351, 5351, 6423,
     ],
   },
   design: {
@@ -95,6 +101,9 @@ const recruitmentMenuList: any = {
       "가구 디자이너",
       "UX 리서처",
       "콘텐츠 디자이너",
+    ],
+    salaryList: [
+      2886, 3036, 3237, 3448, 3685, 3852, 4036, 4206, 4465, 4721, 5195,
     ],
   },
 };
