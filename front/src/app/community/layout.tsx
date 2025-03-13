@@ -159,11 +159,12 @@ export default function CommunityRootLayout({
 
   return (
     <>
-      {children}
-
-      {/* <Flex>
-        <LeftView />
-      </Flex> */}
+      <Flex>
+        <Box flex={3}>
+          <LeftView />
+        </Box>
+        <Box flex={7}>{children}</Box>
+      </Flex>
     </>
   );
 }

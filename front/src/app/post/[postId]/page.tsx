@@ -45,7 +45,7 @@ import {
   mainGrey,
   textGrey,
 } from "@/color";
-import { infoToast, initMap, successToast } from "@/util";
+import { copyCipboard, infoToast, initMap, successToast } from "@/util";
 import { AccordionItemTrigger } from "@/components/ui/accordion";
 import { PositionDiv } from "@/components/position-div";
 import { IoBookmark } from "react-icons/io5";
@@ -219,7 +219,7 @@ export default function PostPage() {
                 ml="8px"
                 onClick={() => {
                   if (!isCopied) {
-                    navigator.clipboard.writeText(copyText).then((v) => {
+                    copyCipboard(copyText, () => {
                       setIsCopied(!isCopied);
                     });
                   }

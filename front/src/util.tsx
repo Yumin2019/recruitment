@@ -85,6 +85,12 @@ const getCountOfLines = (str: string) => {
   return (str.match(/\n/g) || "").length + 1;
 };
 
+const copyCipboard = (text: string, func: any = () => {}) => {
+  navigator.clipboard.writeText(text).then((v) => {
+    func();
+  });
+};
+
 export {
   successToast,
   errorToast,
@@ -94,4 +100,5 @@ export {
   getRandomInt,
   toDollarString,
   getCountOfLines,
+  copyCipboard,
 };
