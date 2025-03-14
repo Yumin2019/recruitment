@@ -160,7 +160,7 @@ export default function CommunityRootLayout({
   return (
     <>
       <Flex>
-        <Box flex={3}>
+        <Box flex={3} className="hidden lg:block">
           <LeftView />
         </Box>
         <Box flex={7}>{children}</Box>

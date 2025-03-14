@@ -17,11 +17,10 @@ import { GoHeartFill, GoHeart } from "react-icons/go";
 import { HiDotsVertical } from "react-icons/hi";
 import { IoChatbubbleOutline, IoShareOutline } from "react-icons/io5";
 
-export const PostView = (v: any, index: number) => {
+export const PostView = (v: any, index: number, isPostPage = false) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isPostExpanded, setIsPostExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-
   const lineCounts = useMemo(() => getCountOfLines(v.text), []);
 
   return (
@@ -52,29 +51,31 @@ export const PostView = (v: any, index: number) => {
           </Button>
         )}
 
-        <MenuRoot>
-          <MenuTrigger asChild>
-            <Box className="hover:bg-gray-100" p="4px" borderRadius="50%">
-              <HiDotsVertical size={20} />
-            </Box>
-          </MenuTrigger>
-          <MenuContent>
-            <MenuItem
-              value="reportPost"
-              color="fg.error"
-              _hover={{ bg: "bg.error", color: "fg.error" }}
-            >
-              게시글 신고하기
-            </MenuItem>
-            <MenuItem
-              value="reportUser"
-              color="fg.error"
-              _hover={{ bg: "bg.error", color: "fg.error" }}
-            >
-              사용자 신고하기
-            </MenuItem>
-          </MenuContent>
-        </MenuRoot>
+        {!isPostPage && (
+          <MenuRoot>
+            <MenuTrigger asChild>
+              <Box className="hover:bg-gray-100" p="4px" borderRadius="50%">
+                <HiDotsVertical size={20} />
+              </Box>
+            </MenuTrigger>
+            <MenuContent>
+              <MenuItem
+                value="reportPost"
+                color="fg.error"
+                _hover={{ bg: "bg.error", color: "fg.error" }}
+              >
+                게시글 신고하기
+              </MenuItem>
+              <MenuItem
+                value="reportUser"
+                color="fg.error"
+                _hover={{ bg: "bg.error", color: "fg.error" }}
+              >
+                사용자 신고하기
+              </MenuItem>
+            </MenuContent>
+          </MenuRoot>
+        )}
       </Flex>
 
       <Text
