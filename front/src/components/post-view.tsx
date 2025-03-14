@@ -17,7 +17,12 @@ import { GoHeartFill, GoHeart } from "react-icons/go";
 import { HiDotsVertical } from "react-icons/hi";
 import { IoChatbubbleOutline, IoShareOutline } from "react-icons/io5";
 
-export const PostView = (v: any, index: number, isPostPage = false) => {
+export const PostView = (
+  v: any,
+  index: number,
+  isPostPage = false,
+  showFollowButton = true
+) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isPostExpanded, setIsPostExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -36,7 +41,8 @@ export const PostView = (v: any, index: number, isPostPage = false) => {
           </Text>
         </Box>
         <Spacer />
-        {!isFollowing && (
+
+        {showFollowButton && !isFollowing && (
           <Button
             size="xs"
             variant="outline"

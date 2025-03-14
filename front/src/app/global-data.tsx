@@ -155,4 +155,67 @@ const postDataList = [
   },
 ];
 
-export { recruitmentMenuList, postDataList };
+const profileData = [
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족1",
+    isFollowing: false,
+  },
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족2",
+    isFollowing: false,
+  },
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족3",
+    isFollowing: false,
+  },
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족4",
+    isFollowing: false,
+  },
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족5",
+    isFollowing: false,
+  },
+  {
+    imageSrc:
+      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
+    title: "심슨가족6",
+    isFollowing: false,
+  },
+];
+
+const activityList = [
+  {
+    name: "활동 1",
+    followerCnt: 500,
+    memberCnt: 500,
+    desc: "3개월 간 30개의 글쓰기에 도전하는 우리들의 이야기✨",
+    imageSrc: "/linkedin.png",
+  },
+  {
+    name: "활동 2",
+    followerCnt: 500,
+    memberCnt: 500,
+    desc: "3개월 간 30개의 글쓰기에 도전하는 우리들의 이야기✨",
+    imageSrc: "/linkedin.png",
+  },
+  {
+    name: "활동 3",
+    followerCnt: 500,
+    memberCnt: 500,
+    desc: "3개월 간 30개의 글쓰기에 도전하는 우리들의 이야기✨",
+    imageSrc: "/linkedin.png",
+  },
+];
+
+export { recruitmentMenuList, postDataList, profileData, activityList };

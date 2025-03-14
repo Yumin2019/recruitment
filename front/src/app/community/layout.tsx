@@ -1,49 +1,11 @@
 "use client";
 
-import { Footer } from "@/components/footer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Button, Flex, Spacer, Text, Image } from "@chakra-ui/react";
 import { attrBorderGrey } from "@/color";
 import { GoPlus } from "react-icons/go";
-
-const profileData = [
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족1",
-    isFollowing: false,
-  },
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족2",
-    isFollowing: false,
-  },
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족3",
-    isFollowing: false,
-  },
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족4",
-    isFollowing: false,
-  },
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족5",
-    isFollowing: false,
-  },
-  {
-    imageSrc:
-      "https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fteam%2Ftemp%2F2db635d71689d67bb382671e71c5ecbfbcaa076cadb87e8ab1a08631250e8d46&w=60&q=90",
-    title: "심슨가족6",
-    isFollowing: false,
-  },
-];
+import { profileData } from "../global-data";
+import { usePathname } from "next/navigation";
 
 export default function CommunityRootLayout({
   children,
@@ -51,6 +13,7 @@ export default function CommunityRootLayout({
   children: React.ReactNode;
 }>) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const pathname = usePathname();
 
   const TeamProfile = (v: any, index: number) => {
     return (
@@ -148,7 +111,7 @@ export default function CommunityRootLayout({
               setIsExpanded(!isExpanded);
             }}
           >
-            {isExpanded ? "접기" : "더 보기"}
+            {isExpanded ? "접기" : "더보기"}
           </Text>
         </Flex>
 
@@ -160,9 +123,12 @@ export default function CommunityRootLayout({
   return (
     <>
       <Flex>
-        <Box flex={3} className="hidden lg:block">
-          <LeftView />
-        </Box>
+        {!pathname.includes("/community/profile") && (
+          <Box flex={3} className="hidden lg:block">
+            <LeftView />
+          </Box>
+        )}
+
         <Box flex={7}>{children}</Box>
       </Flex>
     </>
