@@ -218,4 +218,44 @@ const activityList = [
   },
 ];
 
-export { recruitmentMenuList, postDataList, profileData, activityList };
+const careerList = [
+  {
+    name: "(주)디벨로퍼랩",
+    desc: "모바일 개발팀, Flutter Tech Lead",
+    date: "2024.01 - 2025.01 · 1년",
+    src: "/developer_logo.png",
+  },
+  {
+    name: "(주)디벨로퍼랩",
+    desc: "모바일 개발팀, Flutter Tech Lead",
+    date: "2024.01 - 2025.01 · 1년",
+    src: "/developer_logo.png",
+  },
+  {
+    name: "(주)디벨로퍼랩",
+    desc: "모바일 개발팀, Flutter Tech Lead",
+    date: "2024.01 - 2025.01 · 1년",
+    src: "/developer_logo.png",
+  },
+];
+
+const schoolList = [
+  {
+    name: "한세사이버보안고등학교",
+    desc: "해킹보안과",
+    date: "2018.01 - 2021.01 · 3년",
+    src: "/developer_logo.png",
+  },
+];
+
+const peopleList = ["/google.png", "/apple.png", "/facebook.png"];
+
+export {
+  recruitmentMenuList,
+  postDataList,
+  profileData,
+  activityList,
+  careerList,
+  schoolList,
+  peopleList,
+};

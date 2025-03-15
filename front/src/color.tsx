@@ -6,6 +6,7 @@ const containerGrey = "rgb(245, 245, 245)";
 const textGrey = "rgb(80, 80, 80)";
 const textGrey2 = "rgb(190, 190, 190)";
 const graphGrey = "#eaebec";
+const myPageGrey = "#adadaf";
 
 // Attribute
 const attrBorderGrey = "1px solid rgb(228, 228, 231)";
@@ -21,4 +22,5 @@ export {
   textGrey,
   textGrey2,
   containerGrey,
+  myPageGrey,
 };

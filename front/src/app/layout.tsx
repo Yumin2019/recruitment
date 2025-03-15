@@ -321,17 +321,16 @@ export default function RootLayout({
             />
 
             <Box className="hidden lg:block">
-              <Avatar.Root
-                colorPalette="blue"
-                size="sm"
+              <Image
+                src="/google.png"
+                w="25px"
+                h="25px"
+                ml="4px"
                 className="hover:scale-105 ease-in-out"
                 onMouseEnter={() => {
                   setIsMenuHoverState(null);
                 }}
-              >
-                <Avatar.Fallback />
-                <Avatar.Image src="https://bit.ly/broken-link" />
-              </Avatar.Root>
+              />
             </Box>
 
             <Box className="block lg:hidden">

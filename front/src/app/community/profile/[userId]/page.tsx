@@ -18,40 +18,16 @@ import { attrBorderGrey, attrBorderGrey2 } from "@/color";
 import { copyCipboard, successToast } from "@/util";
 import { IoShareOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
-import { activityList, postDataList, profileData } from "@/app/global-data";
+import {
+  activityList,
+  careerList,
+  peopleList,
+  postDataList,
+  profileData,
+  schoolList,
+} from "@/app/global-data";
 import { PostView } from "@/components/post-view";
-
-const careerList = [
-  {
-    name: "(주)디벨로퍼랩",
-    desc: "모바일 개발팀, Flutter Tech Lead",
-    date: "2024.01 - 2025.01 · 1년",
-    src: "/developer_logo.png",
-  },
-  {
-    name: "(주)디벨로퍼랩",
-    desc: "모바일 개발팀, Flutter Tech Lead",
-    date: "2024.01 - 2025.01 · 1년",
-    src: "/developer_logo.png",
-  },
-  {
-    name: "(주)디벨로퍼랩",
-    desc: "모바일 개발팀, Flutter Tech Lead",
-    date: "2024.01 - 2025.01 · 1년",
-    src: "/developer_logo.png",
-  },
-];
-
-const schoolList = [
-  {
-    name: "한세사이버보안고등학교",
-    desc: "해킹보안과",
-    date: "2018.01 - 2021.01 · 3년",
-    src: "/developer_logo.png",
-  },
-];
-
-const peopleList = ["/google.png", "/apple.png", "/facebook.png"];
+import { ProfileInfoRow } from "@/components/profile-info-row";
 
 export default function ProfilePage() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -61,32 +37,6 @@ export default function ProfilePage() {
   const [dlgPageType, setDlgPageType] = useState("follower");
   const followerDialog = useDialog();
   const recommendDialog = useDialog();
-
-  const RowView = (v: any) => {
-    return (
-      <Flex alignItems="center" mt="8px">
-        <Image
-          src={v.src}
-          w="50px"
-          h="50px"
-          border={attrBorderGrey}
-          borderRadius="8px"
-        />
-
-        <Box ml="10px" w="100%">
-          <Text fontSize="16px" fontWeight="bold">
-            {v.name}
-          </Text>
-
-          <Flex color="grey" fontSize="13px" mt="2px">
-            <Text>{v.desc}</Text>
-            <Spacer />
-            <Text>{v.date}</Text>
-          </Flex>
-        </Box>
-      </Flex>
-    );
-  };
 
   const TeamProfile = (v: any, index: number) => {
     return (
@@ -160,7 +110,7 @@ export default function ProfilePage() {
           {careerList.map((v, index) => {
             return (
               <Box key={index}>
-                {RowView(v)}
+                {ProfileInfoRow(v)}
 
                 {index < careerList.length - 1 && (
                   <Box borderTop={attrBorderGrey2} mt="16px" mb="16px" />
@@ -184,7 +134,7 @@ export default function ProfilePage() {
           {schoolList.map((v, index) => {
             return (
               <Box key={index}>
-                {RowView(v)}
+                {ProfileInfoRow(v)}
 
                 {index < schoolList.length - 1 && (
                   <Box borderTop={attrBorderGrey2} mt="16px" mb="16px" />
