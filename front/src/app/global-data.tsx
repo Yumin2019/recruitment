@@ -250,6 +250,30 @@ const schoolList = [
 
 const peopleList = ["/google.png", "/apple.png", "/facebook.png"];
 
+const plusMenuList = [
+  {
+    title: "취업 ・ 이직",
+    list: [
+      "경력 정보 불러오기",
+      "면접 코칭받기",
+      "내 커리어 리포트 보기",
+      "추천사 작성/요청하기",
+      "챗봇으로 포지션 찾기",
+    ],
+  },
+  {
+    title: "혜택 ・ 정보",
+    list: [
+      "디벨로퍼 포인트",
+      "직군별 연봉",
+      "최신 채용 트렌드",
+      "최신 기술 트렌드",
+    ],
+  },
+  { title: "인사 담당자", list: ["HR 커뮤니티 인살롱", "HR 솔루션"] },
+  { title: "교육 담당자", list: ["디벨로퍼 취업지원시스템"] },
+];
+
 export {
   recruitmentMenuList,
   postDataList,
@@ -258,4 +282,5 @@ export {
   careerList,
   schoolList,
   peopleList,
+  plusMenuList,
 };

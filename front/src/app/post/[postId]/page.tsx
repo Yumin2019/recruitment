@@ -6,13 +6,11 @@ import {
   AccordionRoot,
   Box,
   Button,
-  ButtonGroup,
   Center,
   Flex,
   Heading,
   IconButton,
   Image,
-  Input,
   Separator,
   SimpleGrid,
   Spacer,
@@ -31,7 +29,6 @@ import {
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
@@ -39,17 +36,13 @@ import {
 } from "@/components/ui/dialog";
 import {
   attrBorderGrey,
-  borderGrey,
   containerGrey,
   mainBlue,
   mainGrey,
   textGrey,
 } from "@/color";
-import { copyCipboard, infoToast, initMap, successToast } from "@/util";
+import { copyCipboard, initMap, successToast } from "@/util";
 import { AccordionItemTrigger } from "@/components/ui/accordion";
-import { PositionDiv } from "@/components/position-div";
-import { IoBookmark } from "react-icons/io5";
-import { Footer } from "@/components/footer";
 import {
   IoIosArrowForward,
   IoIosInformationCircleOutline,
@@ -57,6 +50,8 @@ import {
 import { FcDocument, FcOk } from "react-icons/fc";
 import { NaverMap } from "@/components/naver-map";
 import { RenderTagList } from "@/components/tag-list";
+import { IoBookmark } from "react-icons/io5";
+import { Footer } from "@/components/footer";
 
 const content = {
   position: `<p style="color: black; font-size: 15px;">

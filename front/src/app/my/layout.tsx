@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import { attrBorderGrey2, myPageGrey } from "@/color";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const itemList = [
   {
@@ -35,6 +35,7 @@ export default function MyRootLayout({
 }>) {
   const [pageType, setPageType] = useState("profile");
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     let type = pathname.split("/")[2];
@@ -43,7 +44,15 @@ export default function MyRootLayout({
 
   const RowView = (v: any, index: number, isLogout = false) => {
     return (
-      <Box className="hover:bg-gray-100" pl="8px" key={index} mb="45px">
+      <Box
+        className="hover:bg-gray-100"
+        pl="8px"
+        key={index}
+        mb="45px"
+        onClick={() => {
+          router.push(`/my/${v.value}`);
+        }}
+      >
         <Text
           fontSize="18px"
           fontWeight="semibold"
@@ -59,7 +68,7 @@ export default function MyRootLayout({
 
   const LeftView = () => {
     return (
-      <Box w="300px" pl="45px" pt="45px" pr="20px">
+      <Box w="300px" pl="45px" pt="45px" pr="20px" className="hidden lg:block">
         {itemList.map((v, index) => {
           if (v.value === "logout") {
             return <Box key={index}></Box>;
@@ -78,12 +87,33 @@ export default function MyRootLayout({
   return (
     <>
       <Flex>
-        {/* 좌측 컨트롤러 */}
-        <LeftView />
+        <Spacer />
 
-        <Box borderRight={attrBorderGrey2} />
+        <Flex alignItems="flex-start">
+          {/* Left Border */}
+          <Box
+            borderLeft={attrBorderGrey2}
+            h="100%"
+            className="hidden lg:block"
+          />
 
-        {children}
+          <Box className="hidden lg:block sticky top-[80px]">
+            <LeftView />
+          </Box>
+
+          {/* Right Border */}
+          <Box
+            borderLeft={attrBorderGrey2}
+            h="100%"
+            className="hidden lg:block"
+          />
+
+          <Box maxW="700px" ml="50px" mr="50px">
+            {children}
+          </Box>
+        </Flex>
+
+        <Spacer />
       </Flex>
     </>
   );

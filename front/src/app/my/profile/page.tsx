@@ -92,13 +92,7 @@ export default function MyProfilePage() {
 
   const SchoolView = () => {
     return (
-      <Box
-        border={attrBorderGrey}
-        p="20px"
-        mt="24px"
-        borderRadius="12px"
-        bg="#fdfbfc"
-      >
+      <Box border={attrBorderGrey} p="20px" mt="24px" borderRadius="12px">
         <Flex>
           <Text mr="8px" fontSize="16px" fontWeight="bold">
             학력
@@ -153,13 +147,7 @@ export default function MyProfilePage() {
 
   const CareerView = () => {
     return (
-      <Box
-        border={attrBorderGrey}
-        p="20px"
-        mt="24px"
-        borderRadius="12px"
-        bg="#fdfbfc"
-      >
+      <Box border={attrBorderGrey} p="20px" mt="24px" borderRadius="12px">
         <Flex>
           <Text mr="8px" fontSize="16px" fontWeight="bold">
             경력
@@ -227,13 +215,7 @@ export default function MyProfilePage() {
     ];
 
     return (
-      <Box
-        border={attrBorderGrey}
-        p="20px"
-        mt="24px"
-        borderRadius="12px"
-        bg="#fdfbfc"
-      >
+      <Box border={attrBorderGrey} p="20px" mt="24px" borderRadius="12px">
         <Flex>
           <Text mr="8px" fontSize="16px" fontWeight="bold">
             스킬
@@ -294,13 +276,7 @@ export default function MyProfilePage() {
     ];
 
     return (
-      <Box
-        border={attrBorderGrey}
-        p="20px"
-        mt="24px"
-        borderRadius="12px"
-        bg="#fdfbfc"
-      >
+      <Box border={attrBorderGrey} p="20px" mt="24px" borderRadius="12px">
         <Flex>
           <Text mr="8px" fontSize="16px" fontWeight="bold">
             수상
@@ -378,13 +354,7 @@ export default function MyProfilePage() {
     ];
 
     return (
-      <Box
-        border={attrBorderGrey}
-        p="20px"
-        mt="24px"
-        borderRadius="12px"
-        bg="#fdfbfc"
-      >
+      <Box border={attrBorderGrey} p="20px" mt="24px" borderRadius="12px">
         <Flex>
           <Text mr="8px" fontSize="16px" fontWeight="bold">
             언어
@@ -447,24 +417,12 @@ export default function MyProfilePage() {
   };
 
   const RecommendView = () => {
-    let lanuageList = [
-      {
-        language: "영어",
-        ability: "일상 회화", // 기초, 일상 회하, 비즈니스, 원어민
-      },
-      {
-        language: "힌디어",
-        ability: "기초",
-      },
-    ];
-
     return (
       <Flex
         border={attrBorderGrey}
         p="20px"
         mt="24px"
         borderRadius="12px"
-        bg="#fdfbfc"
         alignItems="center"
       >
         <Box border={attrBorderGrey} p="8px" borderRadius="8px">
