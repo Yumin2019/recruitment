@@ -26,7 +26,7 @@ import { CiSearch } from "react-icons/ci";
 import { RiMenu2Line } from "react-icons/ri";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
-import { attrBorderGrey, attrBorderGrey2 } from "@/color";
+import { attrBorderGrey, attrBorderGrey2, textBlue } from "@/color";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Chart as ChartJS, registerables } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -122,7 +122,7 @@ export default function RootLayout({
           borderRadius="8px"
           className="hover:bg-gray-100 cursor-pointer"
         >
-          <Text fontSize="12px" color="#0066ff" fontWeight="bold">
+          <Text fontSize="12px" color={textBlue} fontWeight="bold">
             {v.type}
           </Text>
 

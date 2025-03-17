@@ -50,7 +50,11 @@ export default function MyRootLayout({
         key={index}
         mb="45px"
         onClick={() => {
-          router.push(`/my/${v.value}`);
+          if (v.value === "setting") {
+            router.push("/profile/settings?type=network");
+          } else {
+            router.push(`/my/${v.value}`);
+          }
         }}
       >
         <Text
