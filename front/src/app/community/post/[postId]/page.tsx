@@ -188,7 +188,7 @@ export default function PostPage() {
               className="hover:bg-gray-100"
               onClick={() => {
                 console.log("답글 달기");
-                setAnswerUser("원티드 에이전트");
+                setAnswerUser("디벨로퍼 에이전트");
               }}
             >
               답글 달기

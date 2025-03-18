@@ -7,33 +7,25 @@ import { usePathname, useRouter } from "next/navigation";
 
 const itemList = [
   {
-    title: "프로필",
-    value: "profile",
+    title: "포인트 적립",
+    value: "mypoint",
   },
   {
-    title: "내 활동",
-    value: "activity",
+    title: "포인트 사용",
+    value: "promotions",
   },
   {
-    title: "게시글",
-    value: "post",
-  },
-  {
-    title: "설정",
-    value: "setting",
-  },
-  {
-    title: "로그아웃",
-    value: "logout",
+    title: "내역",
+    value: "history",
   },
 ];
 
-export default function MyRootLayout({
+export default function DPointLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [pageType, setPageType] = useState("profile");
+  const [pageType, setPageType] = useState("mypoint");
   const pathname = usePathname();
   const router = useRouter();
 
@@ -45,25 +37,18 @@ export default function MyRootLayout({
   const RowView = (v: any, index: number, isLogout = false) => {
     return (
       <Box
-        className="hover:bg-gray-100"
         pl="8px"
         key={index}
         mb="45px"
         cursor="pointer"
         onClick={() => {
-          if (v.value === "setting") {
-            router.push("/profile/settings?type=network");
-          } else {
-            router.push(`/my/${v.value}`);
-          }
+          router.push(`/dpoint/${v.value}`);
         }}
       >
         <Text
           fontSize="18px"
           fontWeight="semibold"
-          color={
-            isLogout ? "#cdcecf" : v.value === pageType ? "black" : myPageGrey
-          }
+          color={v.value === pageType ? "black" : myPageGrey}
         >
           {v.title}
         </Text>
@@ -93,16 +78,8 @@ export default function MyRootLayout({
               className="hidden lg:block"
             >
               {itemList.map((v, index) => {
-                if (v.value === "logout") {
-                  return <Box key={index}></Box>;
-                }
-
                 return RowView(v, index);
               })}
-
-              <Box borderBottom={attrBorderGrey2} mb="45px" />
-
-              {RowView(itemList[4], 4, true)}
             </Box>
           </Box>
 
@@ -113,7 +90,7 @@ export default function MyRootLayout({
             className="hidden lg:block"
           />
 
-          <Box maxW="700px" ml="50px" mr="50px">
+          <Box maxW="520x" ml="50px" mr="50px">
             {children}
           </Box>
         </Flex>
