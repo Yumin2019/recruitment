@@ -264,7 +264,7 @@ export default function MyPointPage() {
             cursor="pointer"
             onClick={() => {}}
           >
-            원티드 포인트 알아보기
+            디벨로퍼 포인트 알아보기
           </Text>
           <MdOutlineKeyboardArrowRight color={textBlue} size="22px" />
         </Flex>

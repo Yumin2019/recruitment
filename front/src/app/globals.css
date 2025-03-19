@@ -68,3 +68,19 @@ textarea {
 input[type="checkbox"] {
   transform: scale(1.5);
 }
+
+.embla {
+  width: 520px;
+  --slide-size: 250px;
+  --slide-height: 212px;
+  --slide-spacing: 16px;
+}
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 50%;
+  min-width: 0;
+}
