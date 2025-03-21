@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import { attrBorderGrey, textBlue } from "@/color";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const itemList = [
   {
@@ -25,19 +25,23 @@ export default function ApplicationsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [pageType, setPageType] = useState("network");
-  const searchParams = useSearchParams();
+  const [pageType, setPageType] = useState("applied");
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    let type = searchParams.get("type") || "network";
+    console.log(pathname);
+    let type = pathname.split("/")[3];
     setPageType(type);
+  }, [pathname]);
+
+  useEffect(() => {
     document.body.style = "background: #f8f8f8;";
 
     return () => {
       document.body.style = "background: white;";
     };
-  }, [searchParams]);
+  }, []);
 
   const RowView = (v: any, index: number, isLogout = false) => {
     return (
@@ -46,7 +50,7 @@ export default function ApplicationsLayout({
         key={index}
         mb="16px"
         onClick={() => {
-          router.push(`/profile/settings?type=${v.value}`);
+          router.push(`/status/applications/${v.value}`);
         }}
       >
         <Text fontSize="16px" color={v.value === pageType ? textBlue : "black"}>

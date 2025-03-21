@@ -274,6 +274,63 @@ const plusMenuList = [
   { title: "교육 담당자", list: ["디벨로퍼 취업지원시스템"] },
 ];
 
+const applicationData = {
+  applied: [
+    {
+      company: "안전집사",
+      title: "flutter 개발자",
+      date: "2025.03.18",
+      status: "applied",
+      recommender: null,
+      isRewarded: false,
+      isViewed: false,
+      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
+      applyer: "김유민",
+    },
+  ],
+  pass: [
+    {
+      company: "안전집사 2",
+      title: "flutter 개발자",
+      date: "2025.03.18",
+      status: "pass",
+      recommender: null,
+      isRewarded: false,
+      isViewed: false,
+      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
+      applyer: "김유민",
+    },
+  ],
+  hire: [
+    {
+      company: "안전집사 3",
+      title: "flutter 개발자",
+      date: "2025.03.18",
+      status: "hire",
+      recommender: null,
+      isRewarded: false,
+      isViewed: false,
+      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
+      applyer: "김유민",
+    },
+  ],
+  reject: [],
+
+  write: [
+    {
+      company: "안전집사 3",
+      title: "flutter 개발자",
+      date: "2025.03.18",
+      status: "hire",
+      recommender: null,
+      isRewarded: false,
+      isViewed: false,
+      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
+      applyer: "김유민",
+    },
+  ],
+};
+
 export {
   recruitmentMenuList,
   postDataList,
@@ -283,4 +340,5 @@ export {
   schoolList,
   peopleList,
   plusMenuList,
+  applicationData,
 };

@@ -12,6 +12,7 @@ const applicationGrey = "#c7c8c9";
 
 // Attribute
 const attrBorderGrey = "1px solid rgb(228, 228, 231)";
+const attrBorderGreyDashed = "2px dashed rgb(228, 228, 231)";
 const attrBorderGrey2 = "1px solid rgba(238, 238, 241, 0.9)";
 
 export {
@@ -27,4 +28,5 @@ export {
   myPageGrey,
   textBlue,
   applicationGrey,
+  attrBorderGreyDashed,
 };

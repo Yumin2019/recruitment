@@ -1,6 +1,11 @@
 "use client";
 
-import { applicationGrey, attrBorderGrey, textBlue } from "@/color";
+import {
+  applicationGrey,
+  attrBorderGrey,
+  attrBorderGreyDashed,
+  textBlue,
+} from "@/color";
 import { InputGroup } from "@/components/ui/input-group";
 import {
   Box,
@@ -15,53 +20,19 @@ import {
   useDialog,
 } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { Tooltip } from "@/components/ui/tooltip";
 import { BsPaperclip } from "react-icons/bs";
-
-const applicationData = {
-  applied: [
-    {
-      company: "안전집사",
-      title: "flutter 개발자",
-      date: "2025.03.18",
-      status: "applied",
-      recommender: null,
-      isRewarded: false,
-      isViewed: false,
-      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
-    },
-  ],
-  pass: [
-    {
-      company: "안전집사 2",
-      title: "flutter 개발자",
-      date: "2025.03.18",
-      status: "pass",
-      recommender: null,
-      isRewarded: false,
-      isViewed: false,
-      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
-    },
-  ],
-  hire: [
-    {
-      company: "안전집사 3",
-      title: "flutter 개발자",
-      date: "2025.03.18",
-      status: "hire",
-      recommender: null,
-      isRewarded: false,
-      isViewed: false,
-      imgSrc: "https://static.wanted.co.kr/images/wdes/0_4.b1efd342.png",
-    },
-  ],
-  reject: [],
-};
+import { IoMdClose } from "react-icons/io";
+import { IoInformationCircleOutline } from "react-icons/io5";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { applicationData } from "@/app/global-data";
+import { ApplicationTableItem } from "@/components/application-table-item";
 
 type PageType = "all" | "applied" | "pass" | "hire" | "reject";
 
@@ -71,10 +42,42 @@ export default function AppliedPage() {
   const [pageType, setPageType] = useState<PageType>("all");
   const statusDialog = useDialog();
 
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
   useEffect(() => {
     let type = searchParams.get("status") || "all";
     setPageType(type as PageType);
   }, [searchParams]);
+
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const DatePickerCustomButton = forwardRef(({ value, onClick }, ref: any) => (
+    <Flex
+      onClick={onClick}
+      ref={ref}
+      alignItems="center"
+      cursor="pointer"
+      className="bg-white hover:bg-gray-100"
+      border={attrBorderGrey}
+      borderRadius="16px"
+      pl="20px"
+      pr="20px"
+      ml="12px"
+      h="32px"
+    >
+      <Spacer />
+      <FaRegCalendarAlt size="14px" />
+      <Text fontSize="14px" ml="6px">
+        {value || "전체 기간"}
+      </Text>
+      <Spacer />
+    </Flex>
+  ));
 
   const getItemCounts = (type: PageType) => {
     if (type === "all") {
@@ -107,74 +110,62 @@ export default function AppliedPage() {
     );
   };
 
-  const TableItemView = (v: any, index: number) => {
-    let status = "";
-    if (v.status === "applied") {
-      if (v.isViewed) {
-        status = "열람";
-      } else {
-        status = "접수";
-      }
-    } else if (v.status === "pass") {
-      status = "서류 통과";
-    } else if (v.status === "hire") {
-      status = "합격";
-    } else if (v.status === "reject") {
-      status = "불합격";
-    }
-
-    return (
-      <Flex
-        pt="10px"
-        pb="10px"
-        alignItems="center"
-        key={index}
-        borderBottom={attrBorderGrey}
-        className="hover:bg-gray-50"
-        cursor="pointer"
-        onClick={() => {
-          statusDialog.setOpen(true);
-        }}
-      >
-        <Flex alignItems="center" w="160px" pl="8px">
-          <Image src={v.imgSrc} w="25px" h="25px" mr="8px" />
-          <Text
-            fontSize="14px"
-            textAlign="center"
-            textOverflow="ellipsis"
-            overflow="hidden"
-            whiteSpace="nowrap"
-          >
-            {v.company}
-          </Text>
-        </Flex>
-
-        <Box w="120px">
-          <Text
-            fontSize="14px"
-            textAlign="center"
-            textOverflow="ellipsis"
-            overflow="hidden"
-            whiteSpace="nowrap"
-          >
-            {v.title}
-          </Text>
-        </Box>
-
-        <Text fontSize="14px" textAlign="center" w="80px">
-          {v.date}
-        </Text>
-        <Text fontSize="14px" textAlign="center" w="80px">
-          {status}
-        </Text>
-        <Text fontSize="14px" textAlign="center" w="80px">
-          {v.recommender ? "추천인 있음" : "추천인 없음"}
-        </Text>
-      </Flex>
-    );
-  };
-
   const StatusDialog = (dialog: any) => {
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [fileDataList, setFileDataList] = useState<any>([]);
+
+    const [nameText, setNameText] = useState("");
+    const [emailText, setEmailText] = useState("");
+    const [phoneText, setPhoneText] = useState("");
+
+    useEffect(() => {
+      setNameText("김유민");
+      setEmailText("developer@gmail.com");
+      setPhoneText("01012341234");
+
+      setFileDataList([
+        {
+          title: "모바일 앱 개발자 김유민입니다.pdf",
+        },
+        {
+          title: "포트폴리오.pdf",
+        },
+      ]);
+    }, [dialog.open]);
+
+    const FileView = (v: any, index: number) => {
+      return (
+        <Flex
+          border={isEditMode ? attrBorderGrey : undefined}
+          p={isEditMode ? "8px" : undefined}
+          alignItems="center"
+          borderRadius="4px"
+          key={index}
+          mt={index > 0 ? "8px" : undefined}
+        >
+          <Flex alignItems="center" className="hover:bg-gray-100" p="4px">
+            <BsPaperclip size="15px" color="grey" />
+            <Text fontSize="14px" color="grey" ml="4px">
+              {v.title}
+            </Text>
+          </Flex>
+
+          <Spacer />
+          {isEditMode && (
+            <IoMdClose
+              size="18px"
+              color="grey"
+              className="hover:bg-gray-100"
+              onClick={() => {
+                fileDataList.splice(index, 1);
+                setFileDataList([...fileDataList]);
+              }}
+            />
+          )}
+        </Flex>
+      );
+    };
+
     return (
       <Dialog.RootProvider
         value={dialog}
@@ -185,7 +176,7 @@ export default function AppliedPage() {
       >
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content p="12px" maxH="700px">
+          <Dialog.Content p="12px" maxH="800px">
             <Flex position="relative" alignItems="center" p="12px">
               <Spacer />
               <Text fontSize="16px" fontWeight="bold">
@@ -214,94 +205,206 @@ export default function AppliedPage() {
                 </Box>
               </Flex>
 
-              <Flex mt="40px">
+              <Flex mt="40px" alignItems="center">
                 <Text fontSize="13px" color="grey" w="60px">
                   이름
                 </Text>
 
-                <Text fontSize="16px">김유민</Text>
+                {isEditMode && (
+                  <Input
+                    variant="flushed"
+                    size="sm"
+                    fontSize="16px"
+                    h="30px"
+                    colorPalette="blue"
+                    value={nameText}
+                    onChange={(e) => {
+                      setNameText(e.currentTarget.value);
+                    }}
+                  />
+                )}
+                {!isEditMode && <Text fontSize="16px">{nameText}</Text>}
               </Flex>
 
-              <Flex mt="16px">
+              <Flex mt="16px" alignItems="center">
                 <Text fontSize="13px" color="grey" w="60px">
                   이메일
                 </Text>
 
-                <Text fontSize="16px">yumingames@gmail.com</Text>
+                {isEditMode && (
+                  <Input
+                    variant="flushed"
+                    size="sm"
+                    fontSize="16px"
+                    h="30px"
+                    colorPalette="blue"
+                    value={emailText}
+                    onChange={(e) => {
+                      setEmailText(e.currentTarget.value);
+                    }}
+                  />
+                )}
+                {!isEditMode && <Text fontSize="16px">{emailText}</Text>}
               </Flex>
 
-              <Flex mt="16px">
+              <Flex mt="16px" alignItems="center">
                 <Text fontSize="13px" color="grey" w="60px">
                   연락처
                 </Text>
 
-                <Text fontSize="17px" fontWeight="lighter">
-                  +8201064642211
-                </Text>
+                {isEditMode && (
+                  <Input
+                    variant="flushed"
+                    size="sm"
+                    fontSize="16px"
+                    h="30px"
+                    colorPalette="blue"
+                    value={phoneText}
+                    onChange={(e) => {
+                      setPhoneText(e.currentTarget.value);
+                    }}
+                  />
+                )}
+                {!isEditMode && (
+                  <Text fontSize="17px" ml="6px">
+                    +82{phoneText}
+                  </Text>
+                )}
               </Flex>
 
-              <Flex mt="16px">
+              <Flex mt="16px" alignItems="top">
                 <Text fontSize="13px" color="grey" w="60px">
                   이력서
                 </Text>
 
-                <Box>
-                  <Flex
-                    alignItems="center"
-                    className="hover:bg-gray-100"
-                    p="4px"
-                  >
-                    <BsPaperclip size="15px" color="grey" />
+                <Box w="100%">
+                  {fileDataList.map((v: any, index: number) => {
+                    return FileView(v, index);
+                  })}
 
-                    <Text fontSize="14px" color="grey" ml="4px">
-                      모바일 앱 개발자 김유민입니다.pdf
-                    </Text>
-                  </Flex>
+                  {isEditMode && (
+                    <Box
+                      mt="8px"
+                      textAlign="center"
+                      w="100%"
+                      fontSize="13px"
+                      fontWeight="bold"
+                      color="grey"
+                      border={attrBorderGreyDashed}
+                      p="20px"
+                    >
+                      <Text>마우스로 파일을 끌어오세요</Text>
+                      <Text>또는</Text>
+
+                      <Button
+                        variant="outline"
+                        mt="8px"
+                        borderRadius="24px"
+                        colorPalette="blue"
+                        borderColor={textBlue}
+                        color={textBlue}
+                        onClick={() => {}}
+                        pl="28px"
+                        pr="28px"
+                      >
+                        파일첨부하기
+                      </Button>
+                    </Box>
+                  )}
+
+                  {isEditMode && (
+                    <Flex mt="8px">
+                      <IoInformationCircleOutline color="grey" size="18px" />
+                      <Text ml="6px" color="grey" fontSize="13px">
+                        이미 기업에서 지원서를 열람한 경우, 변경된 사항 확인이
+                        어려울 수 있습니다.
+                      </Text>
+                    </Flex>
+                  )}
                 </Box>
               </Flex>
             </Box>
 
             <Box borderTop={attrBorderGrey} mt="12px" mb="12px" />
 
-            <Button
-              size="xl"
-              borderRadius="24px"
-              colorPalette="blue"
-              color="white"
-              onClick={() => {
-                dialog.setOpen(false);
-              }}
-            >
-              리마인더 전송
-            </Button>
+            {/* 편집 모드 버튼 */}
+            {isEditMode && (
+              <Flex mt="12px" gapX="12px">
+                <Button
+                  flex={1}
+                  variant="outline"
+                  size="xl"
+                  borderRadius="24px"
+                  colorPalette="blue"
+                  color={textBlue}
+                  onClick={() => {
+                    setIsEditMode(true);
+                  }}
+                >
+                  리마인더 전송
+                </Button>
 
-            <Button
-              variant="outline"
-              mt="12px"
-              size="xl"
-              borderRadius="24px"
-              colorPalette="blue"
-              color={textBlue}
-              onClick={() => {
-                dialog.setOpen(false);
-              }}
-            >
-              수정
-            </Button>
+                <Button
+                  flex={1}
+                  size="xl"
+                  borderRadius="24px"
+                  colorPalette="blue"
+                  color="white"
+                  onClick={() => {
+                    setIsEditMode(false);
+                  }}
+                >
+                  확인
+                </Button>
+              </Flex>
+            )}
 
-            <Button
-              variant="outline"
-              mt="12px"
-              size="xl"
-              borderRadius="24px"
-              colorPalette="blue"
-              color={textBlue}
-              onClick={() => {
-                dialog.setOpen(false);
-              }}
-            >
-              지원 취소
-            </Button>
+            {/* 일단 모드 버튼 */}
+            {!isEditMode && (
+              <Button
+                size="xl"
+                borderRadius="24px"
+                colorPalette="blue"
+                color="white"
+                onClick={() => {}}
+              >
+                리마인더 전송
+              </Button>
+            )}
+
+            {!isEditMode && (
+              <Button
+                variant="outline"
+                borderColor={textBlue}
+                mt="12px"
+                size="xl"
+                borderRadius="24px"
+                colorPalette="blue"
+                color={textBlue}
+                onClick={() => {
+                  setIsEditMode(true);
+                }}
+              >
+                수정
+              </Button>
+            )}
+
+            {!isEditMode && (
+              <Button
+                variant="outline"
+                borderColor={textBlue}
+                mt="12px"
+                size="xl"
+                borderRadius="24px"
+                colorPalette="blue"
+                color={textBlue}
+                onClick={() => {
+                  dialog.setOpen(false);
+                }}
+              >
+                지원 취소
+              </Button>
+            )}
           </Dialog.Content>
         </Dialog.Positioner>
       </Dialog.RootProvider>
@@ -311,7 +414,7 @@ export default function AppliedPage() {
   return (
     <>
       {/* 헤더  */}
-      <Flex w="550px" mt="60px">
+      <Flex mt="60px">
         {HeaderDiv("전체", "all")}
         <Box borderRight={attrBorderGrey} />
         {HeaderDiv("지원 완료", "applied")}
@@ -341,23 +444,25 @@ export default function AppliedPage() {
           />
         </InputGroup>
 
-        <Flex
-          alignItems="center"
-          cursor="pointer"
-          className="bg-white hover:bg-gray-100"
-          border={attrBorderGrey}
-          borderRadius="16px"
-          pl="20px"
-          pr="20px"
-          ml="12px"
+        <DatePicker
+          dateFormat="yyyy/MM/dd"
+          selected={startDate}
+          startDate={startDate}
+          endDate={endDate}
+          onChange={onChange}
+          selectsRange
+          customInput={<DatePickerCustomButton />}
         >
-          <Spacer />
-          <FaRegCalendarAlt size="14px" />
-          <Text fontSize="14px" ml="6px">
-            전체 기간
+          <Text
+            cursor="pointer"
+            onClick={() => {
+              setStartDate(null);
+              setEndDate(null);
+            }}
+          >
+            초기화
           </Text>
-          <Spacer />
-        </Flex>
+        </DatePicker>
 
         <Spacer />
 
@@ -382,7 +487,6 @@ export default function AppliedPage() {
           <Spacer />
         </Flex>
       </Flex>
-
       <Flex
         mt="30px"
         textAlign="center"
@@ -426,17 +530,20 @@ export default function AppliedPage() {
           </Tooltip>
         </Flex>
       </Flex>
-
       <Box bg="white">
         {pageType !== "all" &&
           (applicationData as any)[pageType].map((v: any, index: number) => {
-            return TableItemView(v, index);
+            return ApplicationTableItem(v, index, undefined, () => {
+              statusDialog.setOpen(true);
+            });
           })}
 
         {/* 전체에 대한 데이터를 출력한다. */}
         {pageType === "all" &&
           (applicationData as any)["applied"].map((v: any, index: number) => {
-            return TableItemView(v, index);
+            return ApplicationTableItem(v, index, undefined, () => {
+              statusDialog.setOpen(true);
+            });
           })}
       </Box>
 
