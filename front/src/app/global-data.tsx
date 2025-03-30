@@ -331,6 +331,138 @@ const applicationData = {
   ],
 };
 
+const graphData = {
+  dev: {
+    min: 2520,
+    max: 12000,
+  },
+  gamedev: {
+    min: 2640,
+    max: 8000,
+  },
+  design: {
+    min: 2300,
+    max: 8300,
+  },
+};
+
+const salaryData = {
+  dev: [
+    {
+      min: 2520,
+      max: 6000,
+      avgForSixMonths: 3747,
+    },
+    {
+      min: 3000,
+      max: 6500,
+      avgForSixMonths: 4160,
+    },
+    {
+      min: 2520,
+      max: 8000,
+      avgForSixMonths: 4808,
+    },
+    {
+      min: 2880,
+      max: 8900,
+      avgForSixMonths: 5690,
+    },
+    {
+      min: 3000,
+      max: 11000,
+      avgForSixMonths: 6651,
+    },
+    {
+      min: 4300,
+      max: 10000,
+      avgForSixMonths: 7383,
+    },
+    {
+      min: 3800,
+      max: 12000,
+      avgForSixMonths: 7688,
+    },
+  ],
+
+  // 데이터가 없어서 영업직 데이터로 처리
+  gamedev: [
+    {
+      min: 2800,
+      max: 3600,
+      avgForSixMonths: 2950,
+    },
+    {
+      min: 2800,
+      max: 4500,
+      avgForSixMonths: 3362,
+    },
+    {
+      min: 2800,
+      max: 6200,
+      avgForSixMonths: 4158,
+    },
+    {
+      min: 3000,
+      max: 6079,
+      avgForSixMonths: 4535,
+    },
+    {
+      min: 2640,
+      max: 7500,
+      avgForSixMonths: 5018,
+    },
+    {
+      min: 2640,
+      max: 7700,
+      avgForSixMonths: 5239,
+    },
+    {
+      min: 3300,
+      max: 8000,
+      avgForSixMonths: 5875,
+    },
+  ],
+
+  design: [
+    {
+      min: 2300,
+      max: 3860,
+      avgForSixMonths: 3117,
+    },
+    {
+      min: 2800,
+      max: 5500,
+      avgForSixMonths: 3636,
+    },
+    {
+      min: 2400,
+      max: 7000,
+      avgForSixMonths: 3910,
+    },
+    {
+      min: 2900,
+      max: 6000,
+      avgForSixMonths: 4426,
+    },
+    {
+      min: 3600,
+      max: 6600,
+      avgForSixMonths: 4822,
+    },
+    {
+      min: 3650,
+      max: 6500,
+      avgForSixMonths: 5177,
+    },
+    {
+      min: 5000,
+      max: 8300,
+      avgForSixMonths: 6841,
+    },
+  ],
+};
+
 export {
   recruitmentMenuList,
   postDataList,
@@ -341,4 +473,6 @@ export {
   peopleList,
   plusMenuList,
   applicationData,
+  graphData,
+  salaryData,
 };
